@@ -39,10 +39,10 @@ public class OwnRepository {
                 "/img/terminator_2.jpg", 0);
         Movie p2 = new Movie("Terminator 2", 137, 6.6,
         new ArrayList<>(Arrays.asList(Generos.AVENTURA, Generos.FANTASIA)), 11000,
-        "Algunos aÒos antes, un viajero del tiempo le revelÛ " +
-                "a la madre de John que su hijo serÌa el salvador de " +
+        "Algunos a√±os antes, un viajero del tiempo le revel√≥ " +
+                "a la madre de John que su hijo ser√≠a el salvador de " +
                 "la humanidad. Cuando un nuevo androide mejorado llega " +
-                "del futuro para asesinar a John, un viejo modelo ser· " +
+                "del futuro para asesinar a John, un viejo modelo ser√° " +
                 "enviado para protegerle.", "/img/terminator_2.jpg", 0);
         Movie p3 = new Movie("p3", 3, 3.3,
         new ArrayList<>(Arrays.asList(Generos.COMEDIA, Generos.CIENCIA_FICCION)),30000, "3", "/img/terminator_2.jpg", 0);
