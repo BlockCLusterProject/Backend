@@ -1,7 +1,7 @@
-package ApiServices.BackEnd;
+package ApiServices;
 
-import modelos.Movie;
-import ApiServices.OwnRepository;
+import Models.Movie;
+import Repository.OwnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
