@@ -1,0 +1,9 @@
+/bin/
+/build/
+*.xml
+*.dat
+!pom.xml
+/target/
+/private/
+/nbproject/private/
+.env
