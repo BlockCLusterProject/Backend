@@ -5,13 +5,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @ComponentScan({
-    "controladores.Backend",
-    "controladores.FrontEnd",
-    "modelos",
-    "persistencia",
+    "Controllers",
     "ApiServices",
-    "ApiServices.BackEnd",
-    "ApiServices.FrontEnd"
+    "Models",
+    "Repository"
 })
 public class RunBackend {
     public static void main(String[] args) {
