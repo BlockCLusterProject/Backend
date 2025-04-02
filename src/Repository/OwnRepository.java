@@ -1,7 +1,7 @@
-package ApiServices;
+package Repository;
 
-import modelos.Generos;
-import modelos.Movie;
+import Models.Generos;
+import Models.Movie;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
