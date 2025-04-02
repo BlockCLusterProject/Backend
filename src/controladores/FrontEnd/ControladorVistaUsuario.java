@@ -64,8 +64,7 @@ new ArrayList<>(Arrays.asList(Generos.DRAMA, Generos.TERROR))	, 130000, "13", "/
 	private Serializadora serializadora;
 	private ClientSerivce service;
 
-	public ControladorVistaUsuario() {
-		serializadora = new Serializadora();
+	public ControladorVistaUsuario() { serializadora = new Serializadora();
 		service = new ClientSerivce();
 		peliculas = service.getAvailableMovies();
 	}

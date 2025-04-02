@@ -52,7 +52,7 @@ public enum Generos implements Serializable {
     static {
         NAME_TO_GENRE.put("accion", ACCION);
         NAME_TO_GENRE.put("animacion", ANIMACION);
-        NAME_TO_GENRE.put("aventira", AVENTURA);
+        NAME_TO_GENRE.put("aventura", AVENTURA);
         NAME_TO_GENRE.put("documental", DOCUMENTAL);
         NAME_TO_GENRE.put("drama", DRAMA);
         NAME_TO_GENRE.put("familiar", FAMILIAR);
