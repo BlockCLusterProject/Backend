@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/users")
-@Tag(name = "User", description = "API para la gestión de usuarios")
+@Tag(name = "User", description = "API para la gestiï¿½n de usuarios")
 public class UserController {
     private final UserService userService;
 
@@ -37,10 +37,10 @@ public class UserController {
     }
 
     @GetMapping("/available_movies")
-    @Operation(summary = "Obtener las películas disponibles", description = "Devuelve una lista con todas las películas disponibles en la base de datos local")
+    @Operation(summary = "Obtener las pelï¿½culas disponibles", description = "Devuelve una lista con todas las pelï¿½culas disponibles en la base de datos local")
     @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con éxito"),
-    		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
+    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con ï¿½xito"),
+    		@ApiResponse(responseCode = "404", description = "Pelï¿½culas no disponibles"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     public ResponseEntity<List<Movie>> getAvailableMovies(
