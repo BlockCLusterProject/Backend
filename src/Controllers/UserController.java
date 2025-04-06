@@ -54,17 +54,18 @@ public class UserController {
         List<Movie> movies = userService.searchByFilters(genre);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
-    
+    @GetMapping("/validateAdmin")
     public ResponseEntity<Admin> searchAdmin(
             @RequestParam(required = false) String user,
             @RequestParam(required = false) String password) {
+    	System.out.println(user+" : "+password);
     	if (user == null || password == null) {
     		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
     	}
         Admin admin = userService.searchAdmin(user, password);
         return new ResponseEntity<>(admin, HttpStatus.OK);
     }
-    
+    @GetMapping("/validateClient")
     public ResponseEntity<Client> searchClient(
             @RequestParam(required = false) String user,
             @RequestParam(required = false) String password) {
