@@ -5,7 +5,9 @@
 package Models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
+
+import com.couchbase.client.core.deps.com.google.gson.annotations.SerializedName;
 
 /**
  *
@@ -13,16 +15,20 @@ import java.util.ArrayList;
  */
 public class Movie {
 
+	@SerializedName("title")
     private String titulo;
     private int duracion;
+    @SerializedName("vote_average")
     private double puntuacion;
-    private ArrayList<Generos> generos;
+    private List<Generos> generos;
     private double precio;
     // Se crea una clase ENUM para guardar los todos los generos
     // que vamos a usar en el proyecto, para darle orden y que todos se
     // escriban de la misma manera; lo hago en un ArrayList, porque una
     // sola pelicula puede tener mas de 1 genero
+    @SerializedName("overview")
     private String sinopsis;
+    @SerializedName("backdrop_path")
     private String rutaPortada;
     private boolean active = true;
     private int cantidad = 0;
@@ -33,7 +39,7 @@ public class Movie {
             String titulo,
             int duracion,
             double puntuacion,
-            ArrayList<Generos> generos,
+            List<Generos> generos,
             double precio,
             String sinopsis,
             String rutaPortada,
@@ -76,7 +82,7 @@ public class Movie {
         return puntuacion;
     }
 
-    public ArrayList<Generos> getGeneros() {
+    public List<Generos> getGeneros() {
         return generos;
     }
 
