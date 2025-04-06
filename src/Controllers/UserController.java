@@ -6,6 +6,11 @@ package Controllers;
 
 import ApiServices.UserService;
 import Models.Movie;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/users")
+@Tag(name = "User", description = "API para la gesti�n de usuarios")
 public class UserController {
     private final UserService userService;
 
@@ -31,6 +37,12 @@ public class UserController {
     }
 
     @GetMapping("/available_movies")
+    @Operation(summary = "Obtener las pel�culas disponibles", description = "Devuelve una lista con todas las pel�culas disponibles en la base de datos local")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
+    		@ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<List<Movie>> getAvailableMovies(
             @RequestParam(required = false) Integer genre) {
     	if(genre == null) {
