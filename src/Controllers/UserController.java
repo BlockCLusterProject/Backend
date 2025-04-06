@@ -5,6 +5,8 @@
 package Controllers;
 
 import ApiServices.UserService;
+import Models.Admin;
+import Models.Client;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -43,6 +45,7 @@ public class UserController {
     		@ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
+    
     public ResponseEntity<List<Movie>> getAvailableMovies(
             @RequestParam(required = false) Integer genre) {
     	if(genre == null) {
@@ -50,6 +53,26 @@ public class UserController {
     	}
         List<Movie> movies = userService.searchByFilters(genre);
         return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+    
+    public ResponseEntity<Admin> searchAdmin(
+            @RequestParam(required = false) String user,
+            @RequestParam(required = false) String password) {
+    	if (user == null || password == null) {
+    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
+    	}
+        Admin admin = userService.searchAdmin(user, password);
+        return new ResponseEntity<>(admin, HttpStatus.OK);
+    }
+    
+    public ResponseEntity<Client> searchClient(
+            @RequestParam(required = false) String user,
+            @RequestParam(required = false) String password) {
+    	if (user == null || password == null) {
+    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
+    	}
+    	Client client = userService.searchClient(user, password);
+        return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
 }
