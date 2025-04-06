@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @RestController
 @RequestMapping("/api/movie")
-@Tag(name = "User", description = "API para la gesti�n de usuarios")
+@Tag(name = "Admin", description = "API para la gestión de peliculas para el admin")
 public class AdminController {
     private final AdminService adminService;
 
@@ -45,11 +45,19 @@ public class AdminController {
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     public ResponseEntity<List<Movie>> getAvailableMovies(
-            @RequestParam(required = false) Integer genre) {
-    	if(genre == null) {
-    		genre = 0;
-    	}
+            @RequestParam(required = false) int genre) {
         List<Movie> movies = adminService.searchByFilters(genre);
+        return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+    @GetMapping("/trending_movies")
+    @Operation(summary = "Obtener las pel�culas disponibles", description = "Se consulta listado de peliculas trending del día")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
+        @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<List<Movie>> getTrendingMovies( @RequestParam(required = false) int genre) {
+        List<Movie> movies = adminService.getTrendingMovies(genre);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 }

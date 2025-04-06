@@ -21,4 +21,7 @@ public class AdminService {
         return repository.searchByFilters(genre);
     }
 
+    public List<Movie> getTrendingMovies(int genre) {
+        return null;
+    }
 }
