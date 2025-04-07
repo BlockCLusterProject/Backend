@@ -5,24 +5,33 @@
 package Models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
+
+import com.couchbase.client.core.deps.com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.couchbase.client.core.deps.com.fasterxml.jackson.annotation.JsonProperty;
+import com.couchbase.client.core.deps.com.google.gson.annotations.SerializedName;
 
 /**
  *
  * @author JuanCGallo
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
 
+	@JsonProperty("title")
     private String titulo;
     private int duracion;
+    @JsonProperty("vote_average")
     private double puntuacion;
-    private ArrayList<Generos> generos;
+    private List<Generos> generos;
     private double precio;
     // Se crea una clase ENUM para guardar los todos los generos
     // que vamos a usar en el proyecto, para darle orden y que todos se
     // escriban de la misma manera; lo hago en un ArrayList, porque una
     // sola pelicula puede tener mas de 1 genero
+    @JsonProperty("overview")
     private String sinopsis;
+    @JsonProperty("backdrop_path")
     private String rutaPortada;
     private boolean active = true;
     private int cantidad = 0;
@@ -33,7 +42,7 @@ public class Movie {
             String titulo,
             int duracion,
             double puntuacion,
-            ArrayList<Generos> generos,
+            List<Generos> generos,
             double precio,
             String sinopsis,
             String rutaPortada,
@@ -49,6 +58,8 @@ public class Movie {
         this.id = this.counter;
         this.counter++;
     }
+    
+    public Movie() {}
 
     public String getRutaPortada() {
         return rutaPortada;
@@ -76,7 +87,7 @@ public class Movie {
         return puntuacion;
     }
 
-    public ArrayList<Generos> getGeneros() {
+    public List<Generos> getGeneros() {
         return generos;
     }
 
