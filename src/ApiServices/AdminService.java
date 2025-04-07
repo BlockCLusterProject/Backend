@@ -7,6 +7,10 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.couchbase.client.core.deps.com.fasterxml.jackson.core.type.TypeReference;
+import com.couchbase.client.core.deps.com.fasterxml.jackson.databind.JsonNode;
+import com.couchbase.client.core.deps.com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -54,23 +58,17 @@ public class AdminService {
             String jsonResponse = response.body();
 
             Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(jsonResponse, JsonObject.class);
-        	System.out.print(jsonResponse);
-            // Acceder al campo "results" que es un arreglo de películas
-            JsonArray resultsArray = jsonObject.getAsJsonArray("results");
+            ObjectMapper mapper = new ObjectMapper();
 
-            // Convertir el JsonArray a una lista de objetos Movie
-            Type movieListType = new TypeToken<List<Movie>>() {
-            }.getType();
-            List<Movie> movies = gson.fromJson(resultsArray, movieListType);
-            
-            for(int i = 0; i < movies.size(); i++) {
-        		System.out.print(movies.get(i).getTitulo());
-        	}
+            JsonNode root = mapper.readTree(jsonResponse);
+            JsonNode dataNode = root.get("results");
+            System.out.println(dataNode);
+            List<Movie> movies = mapper.readValue(dataNode.toString(), new TypeReference<List<Movie>>() {});
 
             return movies;
 
         } catch (IOException e) {
+        	System.out.print(e.getMessage());
             return null;
         }
     }
