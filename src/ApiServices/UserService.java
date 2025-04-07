@@ -14,7 +14,7 @@ public class UserService {
 	private final OwnRepository repository;
 
 	@Autowired
-	public UserService(OwnRepository repository) {
+	public UserService(OwnRepository repository) throws InterruptedException {
 		this.repository = repository;
 		repository.initSampleData();
 	}

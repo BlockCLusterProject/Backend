@@ -30,16 +30,16 @@ public class AdminService {
     private final OwnRepository repository;
 
     @Autowired
-    public AdminService(OwnRepository repository) {
+    public AdminService(OwnRepository repository) throws InterruptedException {
         this.repository = repository;
         repository.initSampleData();
     }
-
+    	
     public List<Movie> searchByFilters(int genre) {
         return repository.searchByFilters(genre);
     }
 
-    public List<Movie> getTrendingMovies(int genre) throws InterruptedException {
+    public static List<Movie> getTrendingMovies(int genre) throws InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         Dotenv dotenv = Dotenv.load();
         String UrlMovieDb = dotenv.get("baseURL");
@@ -62,9 +62,7 @@ public class AdminService {
 
             JsonNode root = mapper.readTree(jsonResponse);
             JsonNode dataNode = root.get("results");
-            System.out.println(dataNode);
             List<Movie> movies = mapper.readValue(dataNode.toString(), new TypeReference<List<Movie>>() {});
-
             return movies;
 
         } catch (IOException e) {
