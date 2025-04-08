@@ -19,6 +19,7 @@ import ApiServices.AdminService;
 import ApiServices.UserService;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -69,8 +70,8 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
-    public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int idMovie, Movie movie) {
-    	System.out.println(idMovie);
+    public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie, @RequestBody Movie movie) {
+    	System.out.println(id_movie);
     	return  new ResponseEntity<>(movie, HttpStatus.OK);
     }
 }
