@@ -70,4 +70,8 @@ public class AdminService {
             return null;
         }
     }
+    
+    public boolean updateMovie(int idMovie, Movie movie) {
+        return repository.updateMovie(idMovie, movie);
+    }
 }

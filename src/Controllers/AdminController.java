@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import ApiServices.AdminService;
 import ApiServices.UserService;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -59,5 +61,17 @@ public class AdminController {
     public ResponseEntity<List<Movie>> getTrendingMovies( @RequestParam(required = false) int genre) throws InterruptedException {
         List<Movie> movies = adminService.getTrendingMovies(genre);
         return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+    
+    @PatchMapping("/update_movies")
+    @Operation(summary = "Actualiza pelicula", description = "Se consulta la película por medio del id y se actualiza")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
+            @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+        })
+    public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie, @RequestBody Movie movie) {
+    	System.out.println(id_movie);
+    	return  new ResponseEntity<>(movie, HttpStatus.OK);
     }
 }
