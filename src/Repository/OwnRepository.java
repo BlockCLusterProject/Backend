@@ -79,9 +79,14 @@ public class OwnRepository {
         return dbc;
     }
     
+
+    public boolean registerClient(Client user) {
+    	dataBaseClient.add(user);
+    	return true;
+    }
+    
     public List<Movie> initSampleData() throws InterruptedException {
         dataBase = ApiServices.AdminService.getTrendingMovies(0);
-
         return dataBase;
     }
     
