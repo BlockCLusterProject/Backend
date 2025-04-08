@@ -30,5 +30,9 @@ public class UserService {
 	public Client searchClient (String user, String password){
 		return repository.searchClient(user, password);
 	}
+	
+	public boolean registerClient (Client user) {
+		return repository.registerClient(user);
+	}
 
 }
