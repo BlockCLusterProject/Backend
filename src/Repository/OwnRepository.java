@@ -35,7 +35,7 @@ public class OwnRepository {
     }
     
 	public Admin searchAdmin (String user, String password){
-		
+		System.out.println(user +" : "+password);
 	    for(Admin admin : dataBaseAdmin) {
 	        if(admin.getUsuario().equals(user) && admin.getContrasena().equals(password)){
 	            return admin;
@@ -45,7 +45,7 @@ public class OwnRepository {
 	}
 	
 	public Client searchClient (String user, String password){
-			
+		System.out.println(user +" : "+password);	
 		for(Client client : dataBaseClient) {
 		    if(client.getUsuario().equals(user) && client.getContrasena().equals(password)){
 		         return client;
