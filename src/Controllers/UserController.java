@@ -76,8 +76,13 @@ public class UserController {
         return new ResponseEntity<>(admin, HttpStatus.OK);
     }
     
-    // Crear un nuevo usuario
-    @PostMapping
+    @PostMapping("/addUser")
+    @Operation(summary = "Agrega un nuevo usuario a la base de datos", description = "Devuelve un boolean")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Agregado con exito"),
+    		@ApiResponse(responseCode = "204", description = "Admin no encontrado"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     public ResponseEntity<Client> registerClient(@RequestBody Client user) {
     boolean newUser = userService.registerClient(user);
     return new ResponseEntity<>(null, HttpStatus.CREATED);
