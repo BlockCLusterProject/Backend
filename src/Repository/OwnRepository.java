@@ -2,7 +2,7 @@ package Repository;
 import Models.Client;
 import Models.Admin;
 import ApiServices.AdminService;
-import Models.Generos;
+import Models.Genre;
 import Models.Movie;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
@@ -16,22 +16,27 @@ public class OwnRepository {
     private List<Client> dataBaseClient = new ArrayList<>();
     
     public OwnRepository() throws InterruptedException {
-    	dataBase = initSampleData();
+    	initSampleData();
     	dataBaseAdmin = initAdmin();
     	dataBaseClient = initClient();
     }
 
     public List<Movie> searchByFilters(int genre) {
         List<Movie> result = new ArrayList<>();
+        // TODO: revisar la implementación de esta función, null en generos
+        /*
         for(Movie movie : dataBase) {
             boolean existingMovie = (genre == 0 ||
-                    movie.getGeneros().contains(Generos.getGenreById(genre)));
+                    movie.getGenres().contains(Generos.getGenreById(genre)));
             if(existingMovie) {
                 result.add(movie);
             }
         }
 
         return result;
+        */
+        System.out.println(dataBase);
+        return dataBase;
     }
     
 	public Admin searchAdmin (String user, String password){
@@ -85,9 +90,8 @@ public class OwnRepository {
     	return true;
     }
     
-    public List<Movie> initSampleData() throws InterruptedException {
-        dataBase = ApiServices.AdminService.getTrendingMovies(0);
-        return dataBase;
+    public void initSampleData() throws InterruptedException {
+        this.dataBase = ApiServices.AdminService.getTrendingMovies(0);
     }
     
     public boolean updateMovie(int idMovie, Movie movie) {
