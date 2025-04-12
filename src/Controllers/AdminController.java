@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,12 +67,19 @@ public class AdminController {
     @PatchMapping("/update_movies")
     @Operation(summary = "Actualiza pelicula", description = "Se consulta la película por medio del id y se actualiza")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
+            @ApiResponse(responseCode = "200", description = "Pelicula actualizada"),
             @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
     public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie, @RequestBody Movie movie) {
-    	System.out.println(id_movie);
-    	return  new ResponseEntity<>(movie, HttpStatus.OK);
+    	System.out.println(movie.getActive());
+    	return 
+         new ResponseEntity<>(adminService.updateMovie(id_movie, movie), HttpStatus.OK);
+    }
+
+    @PostMapping("/create_movie")
+    @Operation(summary= "Crea nueva pelicula", description = "Se hace una inserción del administrador")
+    public ResponseEntity<Movie> createMovie(@RequestBody(required = true) Movie movie) {
+        return new ResponseEntity<>(adminService.createMovie(movie), HttpStatus.OK);
     }
 }

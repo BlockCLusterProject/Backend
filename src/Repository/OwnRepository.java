@@ -90,14 +90,19 @@ public class OwnRepository {
         return dataBase;
     }
     
-    public boolean updateMovie(int idMovie, Movie movie) {
+    public Movie updateMovie(int idMovie, Movie movie) {
     	for(Movie movies : dataBase) {
     		if(movies.getId() == idMovie) {
     			movies = movie;
-    			return true;
+    			return movies;
     		}
     	}
     	
-    	return false;
+    	return null;
+    }
+
+    public Movie createMovie(Movie movie) {
+        dataBase.add(movie);
+        return movie;
     }
 }
