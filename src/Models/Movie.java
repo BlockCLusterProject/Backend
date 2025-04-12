@@ -20,15 +20,16 @@ public class Movie {
 
 	@JsonProperty("title")
     private String titulo;
+	@JsonProperty("runtime")
     private int duracion;
     @JsonProperty("vote_average")
     private double puntuacion;
-    private List<Generos> generos;
+    @JsonProperty("genres")
+    @SerializedName("genres")
+    private List<Genre> genres;
+    @JsonProperty("genre_ids")
+    private List<Integer> genre_ids;
     private double precio;
-    // Se crea una clase ENUM para guardar los todos los generos
-    // que vamos a usar en el proyecto, para darle orden y que todos se
-    // escriban de la misma manera; lo hago en un ArrayList, porque una
-    // sola pelicula puede tener mas de 1 genero
     @JsonProperty("overview")
     private String sinopsis;
     @JsonProperty("backdrop_path")
@@ -42,7 +43,7 @@ public class Movie {
             String titulo,
             int duracion,
             double puntuacion,
-            List<Generos> generos,
+            List<Genre> generos,
             double precio,
             String sinopsis,
             String rutaPortada,
@@ -51,13 +52,22 @@ public class Movie {
         this.titulo = titulo;
         this.duracion = duracion;
         this.puntuacion = puntuacion;
-        this.generos = generos;
+        this.genres = generos;
         this.precio = precio;
         this.sinopsis = sinopsis;
         this.rutaPortada = rutaPortada;
         this.id = this.counter;
         this.counter++;
     }
+
+    public List<Integer> getGenre_ids() {
+    	return genre_ids;
+    }
+    
+    public void setGenre_ids(List<Integer> genre_ids) {
+    	this.genre_ids = genre_ids;
+    }
+
     
     public Movie() {}
 
@@ -69,6 +79,7 @@ public class Movie {
     public String toString() {
         return "Pelicula{"
                 + "titulo='" + titulo + '\''
+                + ", generos=" + genres
                 + ", duracion=" + duracion
                 + ", puntuacion=" + puntuacion
                 + ", sinopsis='" + sinopsis + '\''
@@ -82,13 +93,21 @@ public class Movie {
     public int getDuracion() {
         return duracion;
     }
+    
+    public void setDuracion(int duracion) {
+    	this.duracion = duracion;
+    }
 
     public double getPuntuacion() {
         return puntuacion;
     }
 
-    public List<Generos> getGeneros() {
-        return generos;
+    public List<Genre> getGenres() {
+        return genres;
+    }
+    
+    public void setGenres(List<Genre> genres) {
+    	this.genres = genres;
     }
 
     public String getSinopsis() {
