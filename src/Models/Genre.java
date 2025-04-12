@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Generos implements Serializable {
+public enum Genre implements Serializable {
     ACCION(28),
     ANIMACION(16),
     DOCUMENTAL(99),
@@ -27,7 +27,7 @@ public enum Generos implements Serializable {
 
     private final int idTmdb;
 
-    Generos(int idTmdb) {
+    Genre(int idTmdb) {
         this.idTmdb = idTmdb;
     }
 
@@ -35,19 +35,19 @@ public enum Generos implements Serializable {
         return idTmdb;
     }
 
-    private static final Map<Integer, Generos> ID_TO_GENRE = new HashMap<>();
+    private static final Map<Integer, Genre> ID_TO_GENRE = new HashMap<>();
 
     static {
-        for(Generos genre : Generos.values()) {
+        for(Genre genre : Genre.values()) {
             ID_TO_GENRE.put(genre.getIdTmdb(), genre);
         }
     }
 
-    public static Generos getGenreById(int idApi) {
+    public static Genre getGenreById(int idApi) {
         return ID_TO_GENRE.get(idApi);
     }
 
-    private static final Map<String, Generos> NAME_TO_GENRE = new HashMap<>();
+    private static final Map<String, Genre> NAME_TO_GENRE = new HashMap<>();
 
     static {
         NAME_TO_GENRE.put("accion", ACCION);
@@ -71,7 +71,7 @@ public enum Generos implements Serializable {
         NAME_TO_GENRE.put("western", WESTERN);
     }
 
-    public static Generos getGenreByName(String movieName) {
+    public static Genre getGenreByName(String movieName) {
         return NAME_TO_GENRE.get(movieName);
     }
 

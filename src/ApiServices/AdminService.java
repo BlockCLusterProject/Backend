@@ -1,6 +1,7 @@
 
 package ApiServices;
 
+import Models.Genre;
 import Models.Movie;
 import Repository.OwnRepository;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -20,6 +21,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.lang.reflect.Type;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -63,6 +65,14 @@ public class AdminService {
             JsonNode root = mapper.readTree(jsonResponse);
             JsonNode dataNode = root.get("results");
             List<Movie> movies = mapper.readValue(dataNode.toString(), new TypeReference<List<Movie>>() {});
+            for(Movie movie : movies) {
+				List<Genre> genres = movie.getGenre_ids().stream()
+						.map(Genre::getGenreById)
+						.collect(Collectors.toList());
+				movie.setGenres(genres);
+				movie.setCantidad(1);
+				movie.setPrecio(23000);
+            }
             return movies;
 
         } catch (IOException e) {
@@ -70,6 +80,7 @@ public class AdminService {
             return null;
         }
     }
+    
     
     public boolean updateMovie(int idMovie, Movie movie) {
         return repository.updateMovie(idMovie, movie);

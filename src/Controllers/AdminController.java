@@ -58,7 +58,10 @@ public class AdminController {
         @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<List<Movie>> getTrendingMovies( @RequestParam(required = false) int genre) throws InterruptedException {
+    public ResponseEntity<List<Movie>> getTrendingMovies( @RequestParam(required = false) Integer genre) throws InterruptedException {
+    	if(genre == null) {
+    		genre = 0;
+    	}
         List<Movie> movies = adminService.getTrendingMovies(genre);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
