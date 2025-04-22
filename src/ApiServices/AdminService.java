@@ -64,6 +64,7 @@ public class AdminService {
 
             JsonNode root = mapper.readTree(jsonResponse);
             JsonNode dataNode = root.get("results");
+            System.out.println(dataNode);
             List<Movie> movies = mapper.readValue(dataNode.toString(), new TypeReference<List<Movie>>() {});
             for(Movie movie : movies) {
 				List<Genre> genres = movie.getGenre_ids().stream()
@@ -73,6 +74,7 @@ public class AdminService {
 				movie.setCantidad(1);
 				movie.setPrecio(23000);
             }
+            System.out.println(movies.get(0).getTitulo());
             return movies;
 
         } catch (IOException e) {

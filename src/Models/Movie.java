@@ -19,24 +19,32 @@ import com.couchbase.client.core.deps.com.google.gson.annotations.SerializedName
 public class Movie {
 
 	@JsonProperty("title")
-    private String titulo;
+    private String title;
 	@JsonProperty("runtime")
+	@SerializedName("runtime")
     private int duracion;
-    @JsonProperty("vote_average")
+	@SerializedName("puntuacion")
     private double puntuacion;
     @JsonProperty("genres")
     @SerializedName("genres")
     private List<Genre> genres;
     @JsonProperty("genre_ids")
     private List<Integer> genre_ids;
+    @SerializedName("precio")
     private double precio;
     @JsonProperty("overview")
+    @SerializedName("sinopsis")
     private String sinopsis;
     @JsonProperty("backdrop_path")
+    @SerializedName("rutaPortada")
     private String rutaPortada;
+    @SerializedName("active")
+    @JsonProperty("active")
     private boolean active = true;
+    @SerializedName("cantidad")
     private int cantidad = 0;
     private static int counter = 1;
+    @SerializedName("id")
     private int id;
 
     public Movie(
@@ -49,7 +57,7 @@ public class Movie {
             String rutaPortada,
             int cantidad
     ) {
-        this.titulo = titulo;
+        this.title = titulo;
         this.duracion = duracion;
         this.puntuacion = puntuacion;
         this.genres = generos;
@@ -78,7 +86,7 @@ public class Movie {
     @Override
     public String toString() {
         return "Pelicula{"
-                + "titulo='" + titulo + '\''
+                + "titulo='" + title + '\''
                 + ", generos=" + genres
                 + ", duracion=" + duracion
                 + ", puntuacion=" + puntuacion
@@ -87,7 +95,7 @@ public class Movie {
     }
 
     public String getTitulo() {
-        return titulo;
+        return title;
     }
 
     public int getDuracion() {
