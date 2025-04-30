@@ -6,6 +6,9 @@ package Controllers;
 
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,22 +70,22 @@ public class AdminController {
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
     
-    @PatchMapping("/update_movies")
-    @Operation(summary = "Actualiza pelicula", description = "Se consulta la película por medio del id y se actualiza")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Pelicula actualizada"),
-            @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
-            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+     @PatchMapping("/update_movies")
+     @Operation(summary = "Actualiza pelicula", description = "Se consulta la película por medio del id y se actualiza")
+     @ApiResponses(value = {
+             @ApiResponse(responseCode = "200", description = "Pelicula actualizada"),
+             @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
+             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
-    public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie, @RequestBody Movie movie) {
-    	System.out.println(movie.getActive());
-    	return 
-         new ResponseEntity<>(adminService.updateMovie(id_movie, movie), HttpStatus.OK);
-    }
+     public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie, @RequestBody Movie movie) {
+     	 return new ResponseEntity<>(adminService.updateMovie(id_movie, movie), HttpStatus.OK);
+     }
 
     @PostMapping("/create_movie")
     @Operation(summary= "Crea nueva pelicula", description = "Se hace una inserción del administrador")
-    public ResponseEntity<Movie> createMovie(@RequestBody(required = true) Movie movie) {
-        return new ResponseEntity<>(adminService.createMovie(movie), HttpStatus.OK);
+    public ResponseEntity<Movie> createMovie(@RequestParam(required = true) String movie) throws JsonMappingException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Movie newMovie = mapper.readValue(movie, Movie.class);
+        return new ResponseEntity<>(adminService.createMovie(newMovie), HttpStatus.OK);
     }
 }

@@ -19,31 +19,35 @@ import com.couchbase.client.core.deps.com.google.gson.annotations.SerializedName
 public class Movie {
 
 	@JsonProperty("title")
-    private String title;
+    private String titulo;
 	@JsonProperty("runtime")
 	@SerializedName("runtime")
-    private int duracion;
+    private int runtime;
 	@SerializedName("puntuacion")
-    private double puntuacion;
+	@JsonProperty("rate")
+    private double rate;
     @JsonProperty("genres")
     @SerializedName("genres")
     private List<Genre> genres;
     @JsonProperty("genre_ids")
     private List<Integer> genre_ids;
     @SerializedName("precio")
-    private double precio;
+    @JsonProperty("price")
+    private double price;
     @JsonProperty("overview")
     @SerializedName("sinopsis")
-    private String sinopsis;
+    private String overview;
     @JsonProperty("backdrop_path")
     @SerializedName("rutaPortada")
-    private String rutaPortada;
+    private String backdrop_path;
     @SerializedName("active")
     @JsonProperty("active")
     private boolean active = true;
     @SerializedName("cantidad")
     private int cantidad = 0;
+    @JsonProperty("counter")
     private static int counter = 1;
+    @JsonProperty("id")
     @SerializedName("id")
     private int id;
 
@@ -57,96 +61,115 @@ public class Movie {
             String rutaPortada,
             int cantidad
     ) {
-        this.title = titulo;
-        this.duracion = duracion;
-        this.puntuacion = puntuacion;
+        this.titulo = titulo;
+        this.runtime = duracion;
+        this.rate = puntuacion;
         this.genres = generos;
-        this.precio = precio;
-        this.sinopsis = sinopsis;
-        this.rutaPortada = rutaPortada;
+        this.price = precio;
+        this.overview = sinopsis;
+        this.backdrop_path = rutaPortada;
         this.id = this.counter;
         this.counter++;
     }
-
-    public List<Integer> getGenre_ids() {
-    	return genre_ids;
-    }
-    
-    public void setGenre_ids(List<Integer> genre_ids) {
-    	this.genre_ids = genre_ids;
-    }
-
     
     public Movie() {}
-
-    public String getRutaPortada() {
-        return rutaPortada;
-    }
 
     @Override
     public String toString() {
         return "Pelicula{"
-                + "titulo='" + title + '\''
+                + "titulo='" + titulo + '\''
                 + ", generos=" + genres
-                + ", duracion=" + duracion
-                + ", puntuacion=" + puntuacion
-                + ", sinopsis='" + sinopsis + '\''
+                + ", duracion=" + runtime
+                + ", puntuacion=" + rate
+                + ", sinopsis='" + overview + '\''
                 + '}';
     }
-
-    public String getTitulo() {
-        return title;
-    }
-
-    public int getDuracion() {
-        return duracion;
-    }
     
-    public void setDuracion(int duracion) {
-    	this.duracion = duracion;
+    public String getTitle() {
+        return titulo;
     }
 
-    public double getPuntuacion() {
-        return puntuacion;
+    public void setTitle(String title) {
+        this.titulo = title;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 
     public List<Genre> getGenres() {
         return genres;
     }
-    
+
     public void setGenres(List<Genre> genres) {
-    	this.genres = genres;
+        this.genres = genres;
     }
 
-    public String getSinopsis() {
-        return sinopsis;
+    public List<Integer> getGenre_ids() {
+        return genre_ids;
     }
 
-    public double getPrecio() {
-        return precio;
+    public void setGenre_ids(List<Integer> genre_ids) {
+        this.genre_ids = genre_ids;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double precio) {
+        this.price = precio;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
+
+    public void setBackdrop_path(String backdrop_path) {
+        this.backdrop_path = backdrop_path;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 
-    public int getCantidad() {
-        return this.cantidad;
-    }
-
-    public boolean getActive() {
-        return this.active;
-    }
-
     public int getId() {
-        return this.id;
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

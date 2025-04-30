@@ -23,7 +23,7 @@ public class OwnRepository {
 
     public List<Movie> searchByFilters(int genre) {
         List<Movie> result = new ArrayList<>();
-        // TODO: revisar la implementación de esta función, null en generos
+        // TODO: revisar la implementaciï¿½n de esta funciï¿½n, null en generos
         /*
         for(Movie movie : dataBase) {
             boolean existingMovie = (genre == 0 ||
@@ -91,7 +91,7 @@ public class OwnRepository {
     }
     
     public void initSampleData() throws InterruptedException {
-        this.dataBase = ApiServices.AdminService.getTrendingMovies(0);
+        this.dataBase = AdminService.getTrendingMovies(0);
     }
     
     public Movie updateMovie(int idMovie, Movie movie) {

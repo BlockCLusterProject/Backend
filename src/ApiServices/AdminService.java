@@ -70,11 +70,11 @@ public class AdminService {
 				List<Genre> genres = movie.getGenre_ids().stream()
 						.map(Genre::getGenreById)
 						.collect(Collectors.toList());
-				movie.setGenres(genres);
-				movie.setCantidad(1);
-				movie.setPrecio(23000);
+                movie.setGenres(genres);
+                movie.setCantidad(1);
+                movie.setPrice(23000);
             }
-            System.out.println(movies.get(0).getTitulo());
+            System.out.println(movies.get(0).getTitle());
             return movies;
 
         } catch (IOException e) {
