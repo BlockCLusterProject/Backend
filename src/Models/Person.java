@@ -4,21 +4,47 @@
  */
 package Models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+
 /**
  *
  * @author andre
  */
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
     
+	@Column(name = "nombre")
     private String nombre;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
+    
+    @Column(name = "cedula")
+    private String cedula;
+
+    @Column(name = "id_rol")
+    private String idRol;
+
+    @Column(name = "age")
     private String edad;
+
+    @Column(name = "email")
     private String correo;
+
+    @Column(name = "phone")
     private String telefono;
 
-    public Person(String nombre, String id, String edad, String correo, String telefono) {
+    public Person(String nombre, String cedula, String edad, String correo, String telefono) {
         this.nombre = nombre;
-        this.id = id;
+        this.cedula = cedula;
         this.edad = edad;
         this.correo = correo;
         this.telefono = telefono;
@@ -32,12 +58,12 @@ public class Person {
         this.nombre = nombre;
     }
 
-    public String getId() {
-        return id;
+    public String getCedula() {
+        return cedula;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCedula(String cedula) {
+    	this.cedula = cedula;
     }
 
     public String getEdad() {

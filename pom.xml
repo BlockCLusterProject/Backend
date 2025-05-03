@@ -54,6 +54,21 @@
 		<version>${spring-boot.version}</version>
 		<scope>test</scope>
 	</dependency>
+	
+	<!-- JPA -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-jpa</artifactId>
+		<version>${spring-boot.version}</version>
+	</dependency>
+	
+	<!-- MariaDB connection -->
+	<dependency>
+		<groupId>org.mariadb.jdbc</groupId>
+		<artifactId>mariadb-java-client</artifactId>
+		<scope>runtime</scope>
+		<version>3.4.1</version>
+	</dependency>
 
 	<dependency>
 		<groupId>com.mysql</groupId>
@@ -99,14 +114,6 @@
 		<artifactId>spring-boot-starter-data-couchbase</artifactId>
 		<version>3.4.4</version>  <!-- Ajusta según la versión de Spring Boot que uses -->
 	</dependency>
-	
-	<!--
-	<dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-simple</artifactId>
-		<version>1.7.32</version>
-	</dependency>
-	-->
 	
 	<!-- Dotenv -->
 	<dependency>

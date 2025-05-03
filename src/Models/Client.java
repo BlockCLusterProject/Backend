@@ -4,13 +4,22 @@
  */
 package Models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 /**
  *
  * @author andre
  */
+@Entity
+@Table(name = "users")
 public class Client extends Person{
     
+	@Column(name = "usuario")
     private String usuario;
+
+	@Column(name = "contrasena")
     private String contrasena;
 
     public Client(String nombre, String id, String edad, String correo, String telefono, String usuario, String contrasena) {
