@@ -92,17 +92,22 @@ public class OwnRepository {
     }
     
     public void initSampleData() throws InterruptedException {
-        this.dataBase = ApiServices.AdminService.getTrendingMovies(0);
+        this.dataBase = AdminService.getTrendingMovies(0);
     }
     
-    public boolean updateMovie(int idMovie, Movie movie) {
+    public Movie updateMovie(int idMovie, Movie movie) {
     	for(Movie movies : dataBase) {
     		if(movies.getId() == idMovie) {
     			movies = movie;
-    			return true;
+    			return movies;
     		}
     	}
     	
-    	return false;
+    	return null;
+    }
+
+    public Movie createMovie(Movie movie) {
+        dataBase.add(movie);
+        return movie;
     }
 }

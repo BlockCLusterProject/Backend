@@ -5,16 +5,27 @@
 package Models;
 
 import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 
 /**
  *
  * @author andre
  */
+@Entity
+@Table(name = "users")
 public class Client extends Person{
     
     private String user;
     private String password;
     private List<Genre> preference;
+	@Column(name = "usuario")
+    private String usuario;
+
+	@Column(name = "contrasena")
+    private String contrasena;
 
     public Client(String name, String id, String age, String email, String phone, String user, String password, List<Genre> preference) {
         super(name, id, age, email, phone);
