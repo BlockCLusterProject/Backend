@@ -4,9 +4,11 @@
  */
 package Models;
 
+import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+
 
 /**
  *
@@ -16,32 +18,40 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class Client extends Person{
     
+    private String user;
+    private String password;
+    private List<Genre> preference;
 	@Column(name = "usuario")
     private String usuario;
 
 	@Column(name = "contrasena")
     private String contrasena;
 
-    public Client(String nombre, String id, String edad, String correo, String telefono, String usuario, String contrasena) {
-        super(nombre, id, edad, correo, telefono);
-        this.usuario = usuario;
-        this.contrasena = contrasena;
+    public Client(String name, String id, String age, String email, String phone, String user, String password, List<Genre> preference) {
+        super(name, id, age, email, phone);
+        this.user = user;
+        this.password = password;
+        this.preference = preference;
     }
-
+    
+    public List<Genre> getPreference() {
+        return preference;
+    }
+    
     public String getUsuario() {
-        return usuario;
+        return user;
     }
 
     public void setUsuario(String usuario) {
-        this.usuario = usuario;
+        this.user = usuario;
     }
 
     public String getContrasena() {
-        return contrasena;
+        return password;
     }
 
     public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+        this.password = contrasena;
     }
     
     

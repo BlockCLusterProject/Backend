@@ -73,14 +73,15 @@ public class OwnRepository {
     
     public List<Client> initClient(){
     	List<Client> dbc = new ArrayList<>();
-    	
-        Client client1 = new Client("andrea","111","20","notiene@notiene","3207080333","cliente1","cliente1");
-        Client client2 = new Client("ramon","222","20","notiene@notiene","3012502835","cliente2","cliente2");
-        Client client3 = new Client("pablo","333","20","notiene@notiene","3182506735","cliente3","cliente3");
+    	List<String> preference = null;
+    	 	
+        Client client1 = new Client("andrea","111","20","notiene@notiene","3207080333","cliente1","cliente1", Arrays.asList(Genre.ACCION, Genre.AVENTURA));
+        // Client client2 = new Client("ramon","222","20","notiene@notiene","3012502835","cliente2","cliente2");
+        // Client client3 = new Client("pablo","333","20","notiene@notiene","3182506735","cliente3","cliente3");
     
         dbc.add(client1); 
-        dbc.add(client2);
-        dbc.add(client3);
+        // dbc.add(client2);
+        // dbc.add(client3);
         return dbc;
     }
     
