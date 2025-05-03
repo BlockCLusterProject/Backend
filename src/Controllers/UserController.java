@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -106,6 +109,22 @@ public class UserController {
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
     
+    @GetMapping(value="/generate-qr")
+    @Operation(summary="Obtener el código QR de la factura", description = "Devuele el código QR de la factura")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Código generado correctamente"),
+    		@ApiResponse(responseCode = "400", description = "Error al hacer la petición"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<String> generateQr(
+    		@RequestParam String message) {
+    	if (message == null) {
+    		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    	}
+    	byte[] image = userService.generateQr(message);
+    	String base64 = Base64.getEncoder().encodeToString(image);
+    	return new ResponseEntity<>(base64, HttpStatus.OK);
+    }
     
 
 }
