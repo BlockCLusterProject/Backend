@@ -18,16 +18,15 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class Client extends Person{
     
+	@Column(name = "usuario")
     private String user;
+	@Column(name = "contrasena")
     private String password;
     private List<Genre> preference;
-	@Column(name = "usuario")
-    private String usuario;
+    
+    public Client() {};
 
-	@Column(name = "contrasena")
-    private String contrasena;
-
-    public Client(String name, String id, String age, String email, String phone, String user, String password, List<Genre> preference) {
+    public Client(String name, String id, int age, String email, String phone, String user, String password, List<Genre> preference) {
         super(name, id, age, email, phone);
         this.user = user;
         this.password = password;

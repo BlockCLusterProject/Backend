@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ApiServices.AdminService;
 import ApiServices.UserService;
+import Models.Client;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -41,6 +42,12 @@ public class AdminController {
     @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
+    }
+    
+    @GetMapping("/prueba_get")
+    public ResponseEntity<List<Client>> getClients() {
+    	List<Client> clients = adminService.getClients();
+    	return new ResponseEntity<>(clients, HttpStatus.OK);
     }
 
     @GetMapping("/available_movies")

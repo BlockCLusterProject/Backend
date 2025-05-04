@@ -34,7 +34,7 @@ public class Person {
     private String idRol;
 
     @Column(name = "age")
-    private String edad;
+    private int edad;
 
     @Column(name = "email")
     private String correo;
@@ -42,13 +42,15 @@ public class Person {
     @Column(name = "phone")
     private String telefono;
 
-    public Person(String nombre, String cedula, String edad, String correo, String telefono) {
+    public Person(String nombre, String cedula, int edad, String correo, String telefono) {
         this.nombre = nombre;
         this.cedula = cedula;
         this.edad = edad;
         this.correo = correo;
         this.telefono = telefono;
     }
+    
+    public Person() {};
 
     public String getNombre() {
         return nombre;
@@ -66,11 +68,11 @@ public class Person {
     	this.cedula = cedula;
     }
 
-    public String getEdad() {
+    public int getEdad() {
         return edad;
     }
 
-    public void setEdad(String edad) {
+    public void setEdad(int edad) {
         this.edad = edad;
     }
 
