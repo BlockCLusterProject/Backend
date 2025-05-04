@@ -1,4 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+	<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.4</version>
+     	<relativePath/>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>Backend</groupId>
   <artifactId>Backend</artifactId>
@@ -14,44 +20,44 @@
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.17.0</version>
+        <!--<version>2.17.0</version>-->
     </dependency>
     
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
-        <version>2.17.0</version>
+        <!--<version>2.17.0</version>-->
     </dependency>
 
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.17.0</version>
+        <!--<version>2.17.0</version>-->
     </dependency>
 
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter</artifactId>
-		<version>${spring-boot.version}</version>
+		<!--<version>${spring-boot.version}</version>-->
 	</dependency>
 		
 	<dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
-		<version>${spring-boot.version}</version>
+		<!--<version>${spring-boot.version}</version>-->
 	</dependency>
     	
 	<dependency>
 		<groupId>org.projectlombok</groupId>
 		<artifactId>lombok</artifactId>
-		<version>${lombok.version}</version>
+		<!--<version>${lombok.version}</version>-->
 		<optional>true</optional>
 	</dependency>
 
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-test</artifactId>
-		<version>${spring-boot.version}</version>
+		<!--<version>${spring-boot.version}</version>-->
 		<scope>test</scope>
 	</dependency>
 	
@@ -59,21 +65,40 @@
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-data-jpa</artifactId>
-		<version>${spring-boot.version}</version>
 	</dependency>
+	
+	<!--
+	<dependency>
+		<groupId>javax.xml.bind</groupId>
+		<artifactId>jaxb-api</artifactId>
+		<version>2.3.0</version>
+	</dependency>
+	
+	<dependency> 
+		<groupId>org.hibernate</groupId> 
+		<artifactId>hibernate-entitymanager</artifactId> 
+		<version>5.2.3.Final</version> 
+	</dependency>
+	
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core</artifactId>
+		<version> 5.2.1.Final</version>
+	</dependency>
+	-->
 	
 	<!-- MariaDB connection -->
 	<dependency>
 		<groupId>org.mariadb.jdbc</groupId>
 		<artifactId>mariadb-java-client</artifactId>
-		<scope>runtime</scope>
-		<version>3.4.1</version>
+		<!--<scope>runtime</scope>-->
+		<!--<version>3.4.1</version>-->
 	</dependency>
 
 	<dependency>
 		<groupId>com.mysql</groupId>
 		<artifactId>mysql-connector-j</artifactId>
-		<version>9.2.0</version>
+		<!--<version>9.2.0</version>-->
 		<scope>runtime</scope>
 	</dependency>
 	
@@ -94,25 +119,25 @@
 	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-tx</artifactId>
-		<version>6.2.4</version>
+		<!--<version>6.2.4</version>-->
 	</dependency>
 	
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-jdbc</artifactId>
-		<version>3.4.4</version>
+		<!--<version>3.4.4</version>-->
 	</dependency>
 
 	<dependency>
 		<groupId>io.r2dbc</groupId>
 		<artifactId>r2dbc-spi</artifactId>
-		<version>1.0.0.RELEASE</version>
+		<!--<version>1.0.0.RELEASE</version>-->
 	</dependency>
 	
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-data-couchbase</artifactId>
-		<version>3.4.4</version>  <!-- Ajusta según la versión de Spring Boot que uses -->
+		<!--<version>3.4.4</version>   Ajusta según la versión de Spring Boot que uses -->
 	</dependency>
 	
 	<!-- Dotenv -->
@@ -135,16 +160,13 @@
     <sourceDirectory>src</sourceDirectory>
     <resources>
       <resource>
-        <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
+      	<directory>src/resources</directory>
       </resource>
     </resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
+        <!--<version>3.13.0</version>-->
         <configuration>
           <release>16</release>
 			<compilerArgs>
@@ -155,7 +177,7 @@
       <plugin>
       	<groupId>org.springframework.boot</groupId>
       	<artifactId>spring-boot-maven-plugin</artifactId>
-      	<version>3.4.4</version>
+      	<!--<version>3.4.4</version>-->
       </plugin>
     </plugins>
   </build>

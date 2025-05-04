@@ -1,10 +1,14 @@
 
 package ApiServices;
 
+import Models.Client;
 import Models.Genre;
 import Models.Movie;
 import Repository.OwnRepository;
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,11 +34,15 @@ import com.google.gson.JsonObject;
 @Service
 public class AdminService {
     private final OwnRepository repository;
-
+    
     @Autowired
     public AdminService(OwnRepository repository) throws InterruptedException {
         this.repository = repository;
-        repository.initSampleData();
+        // repository.initSampleData();
+    }
+    
+    public List<Client> getClients() {
+    	return repository.getClients();
     }
     	
     public List<Movie> searchByFilters(int genre) {
