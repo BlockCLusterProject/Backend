@@ -1,7 +1,6 @@
 package ApiServices;
 
-import Models.Admin;
-import Models.Client;
+import Models.Person;
 import Models.Movie;
 import Repository.OwnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +34,15 @@ public class UserService {
 		return repository.searchByFilters(genre);
 	}
 
-	public Admin searchAdmin (String user, String password){
+	public Person searchAdmin (String user, String password){
 		return repository.searchAdmin(user, password);
 	}
 	
-	public Client searchClient (String user, String password){
+	public Person searchClient (String user, String password){
 		return repository.searchClient(user, password);
 	}
 	
-	public boolean registerClient (Client user) {
+	public boolean registerClient (Person user) {
 		return repository.registerClient(user);
 	}
 	

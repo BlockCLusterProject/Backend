@@ -1,13 +1,11 @@
 package Repository;
-import Models.Client;
-import Models.Admin;
+import Models.Person;
 import ApiServices.AdminService;
 import Models.Genre;
 import Models.Movie;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 
@@ -22,8 +20,8 @@ public class OwnRepository {
 	private EntityManager entityManager;
 
     private List<Movie> dataBase = new ArrayList<>();
-    private List<Admin> dataBaseAdmin = new ArrayList<>();
-    private List<Client> dataBaseClient = new ArrayList<>();
+    private List<Person> dataBaseAdmin = new ArrayList<>();
+    private List<Person> dataBaseClient = new ArrayList<>();
     
     public OwnRepository() throws InterruptedException {
     	// initSampleData();
@@ -39,9 +37,13 @@ public class OwnRepository {
     }
     
     @Transactional
-    public List<Client> getClients() {
-    	Query query = entityManager.createNativeQuery("SELECT * FROM users", Client.class);
-    	return query.getResultList();
+    public List<Person> getClients() {
+    	// Query query = entityManager.createNativeQuery("SELECT id, id_rol, nombre, cedula, age, email, phone, usuario, contrasena FROM users", Client.class);
+    	// Query query = entityManager.createQuery("FROM Person", Person.class);
+    	Query query = entityManager.createNativeQuery("SELECT * FROM users", Person.class);
+    	System.out.println(entityManager.getMetamodel().getEntities());
+    	List<Person> rows = query.getResultList();
+    	return rows;
     }
 
     public List<Movie> searchByFilters(int genre) {
@@ -62,53 +64,53 @@ public class OwnRepository {
         return dataBase;
     }
     
-	public Admin searchAdmin (String user, String password){
+	public Person searchAdmin (String user, String password){
 		System.out.println(user +" : "+password);
-	    for(Admin admin : dataBaseAdmin) {
-	        if(admin.getUsuario().equals(user) && admin.getContrasena().equals(password)){
+	    for(Person admin : dataBaseAdmin) {
+	        if(admin.getUser().equals(user) && admin.getPassword().equals(password)){
 	            return admin;
 	        }
 	    }
 	    return null;
 	}
 	
-	public Client searchClient (String user, String password){
+	public Person searchClient (String user, String password){
 		System.out.println(user +" : "+password);	
-		for(Client client : dataBaseClient) {
-		    if(client.getUsuario().equals(user) && client.getContrasena().equals(password)){
+		for(Person client : dataBaseClient) {
+		    if(client.getUser().equals(user) && client.getPassword().equals(password)){
 		         return client;
 		    }
 	      }
 		  return null;
 	}
     
-    public List<Admin> initAdmin(){
-    	List<Admin> dba = new ArrayList<>();
+    public List<Person> initAdmin(){
+    	List<Person> dba = new ArrayList<>();
     	
-        Admin admin1 = new Admin("juan","123",25,"notiene@notiene","32323232","blockcluster1","123");
+        // Admin admin1 = new Admin("juan","123",25,"notiene@notiene","32323232","blockcluster1","123");
         
-        Admin admin2 = new Admin("andrea","234",25,"notiene@notiene","32323232","blockcluster2","234");
+        // Admin admin2 = new Admin("andrea","234",25,"notiene@notiene","32323232","blockcluster2","234");
         
-        dba.add(admin1); 
-        dba.add(admin2);
+        // dba.add(admin1); 
+        // dba.add(admin2);
         return dba;
     }
     
-    public List<Client> initClient(){
-    	List<Client> dbc = new ArrayList<>();
+    public List<Person> initClient(){
+    	List<Person> dbc = new ArrayList<>();
     	List<String> preference = null;
     	 	
-        Client client1 = new Client("andrea","111",20,"notiene@notiene","3207080333","cliente1","cliente1", Arrays.asList(Genre.ACCION, Genre.AVENTURA));
+        // Client client1 = new Client("andrea","111",20,"notiene@notiene","3207080333","cliente1","cliente1", Arrays.asList(Genre.ACCION, Genre.AVENTURA));
         // Client client2 = new Client("ramon","222","20","notiene@notiene","3012502835","cliente2","cliente2");
         // Client client3 = new Client("pablo","333","20","notiene@notiene","3182506735","cliente3","cliente3");
     
-        dbc.add(client1); 
+        // dbc.add(client1); 
         // dbc.add(client2);
         // dbc.add(client3);
         return dbc;
     }
     
-    public boolean registerClient(Client user) {
+    public boolean registerClient(Person user) {
     	dataBaseClient.add(user);
     	return true;
     }

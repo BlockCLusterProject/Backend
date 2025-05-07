@@ -36,15 +36,14 @@ public class Movie {
 	@JsonProperty("title")
     private String titulo;
 
-	@Column(name = "runtime", nullable = false)
-	@JsonProperty("runtime")
     private int duracion;
 
 	@Column(name = "vote_average", nullable = false)
     @JsonProperty("vote_average")
     private double puntuacion;
 
-	@Convert(converter = GenreListConverter.class)
+	@JsonProperty("runtime")
+	@Column(name = "runtime", nullable = false)
 	@SerializedName("runtime")
     private int runtime;
 
@@ -53,6 +52,7 @@ public class Movie {
     private double rate;
 
 	@Column(name = "genres", columnDefinition = "JSON", nullable = false)
+	@Convert(converter = GenreListConverter.class)
     @JsonProperty("genres")
     @SerializedName("genres")
     private List<Genre> genres;
