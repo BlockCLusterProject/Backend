@@ -87,12 +87,4 @@ public class AdminService {
         }
     }
     
-    public Movie updateMovie(int idMovie, Movie movie) {
-        return repository.updateMovie(idMovie, movie);
-    }
-
-    public Movie createMovie(Movie movie) {
-        repository.createMovie(movie);
-        return movie;
-    }
 }

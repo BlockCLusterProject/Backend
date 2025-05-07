@@ -1,6 +1,8 @@
 package Repository;
 import Models.Person;
 import ApiServices.AdminService;
+import Entities.PurchaseHistory;
+import Models.ClientSesion;
 import Models.Genre;
 import Models.Movie;
 import jakarta.annotation.PostConstruct;
@@ -20,27 +22,14 @@ public class OwnRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-    private List<Movie> dataBase = new ArrayList<>();
-    private List<Person> dataBaseAdmin = new ArrayList<>();
-    private List<Person> dataBaseClient = new ArrayList<>();
-    
     public OwnRepository() throws InterruptedException {
-    	// initSampleData();
-    	//dataBaseAdmin = initAdmin();
-    	//dataBaseClient = initClient();
     }
     
-    @PostConstruct
-    public void init() throws InterruptedException {
-    	initSampleData();
-    	dataBaseAdmin = initAdmin();
-    	dataBaseClient = initClient();
-    }
     
     @Transactional
 	public Person searchClient(String user, String password) {
 	    try {
-	        String sql = "SELECT * FROM users WHERE user =:user AND password =:password";
+	        String sql = "SELECT * FROM users WHERE usuario =:user AND contrasena =:password";
 	        return (Person) entityManager.createNativeQuery(sql, Person.class)
 	            .setParameter("user", user)
 	            .setParameter("password", password)
@@ -74,85 +63,56 @@ public class OwnRepository {
     
     @Transactional
     public List<Person> getClients() {
-    	// Query query = entityManager.createNativeQuery("SELECT id, id_rol, nombre, cedula, age, email, phone, usuario, contrasena FROM users", Client.class);
-    	// Query query = entityManager.createQuery("FROM Person", Person.class);
     	Query query = entityManager.createNativeQuery("SELECT * FROM users", Person.class);
     	System.out.println(entityManager.getMetamodel().getEntities());
     	List<Person> rows = query.getResultList();
     	return rows;
     }
+    
+    @Transactional
+    public List<Movie> getAvailableMovies() {
+    	String sql = "SELECT * FROM movies WHERE is_active = TRUE";
+    	Query query = entityManager.createNativeQuery(sql, Movie.class);
+    	return query.getResultList();
+    }
 
     public List<Movie> searchByFilters(int genre) {
         List<Movie> result = new ArrayList<>();
-        // TODO: revisar la implementaci�n de esta funci�n, null en generos
-        /*
-        for(Movie movie : dataBase) {
-            boolean existingMovie = (genre == 0 ||
-                    movie.getGenres().contains(Generos.getGenreById(genre)));
-            if(existingMovie) {
-                result.add(movie);
-            }
-        }
-
         return result;
-        */
-        System.out.println(dataBase);
-        return dataBase;
     }
     
 	public Person searchAdmin (String user, String password){
-		System.out.println(user +" : "+password);
-	    for(Person admin : dataBaseAdmin) {
-	        if(admin.getUser().equals(user) && admin.getPassword().equals(password)){
-	            return admin;
-	        }
-	    }
 	    return null;
 	}
+	
+	@Transactional
+	public Movie getMovieById(Integer movieId) {
+		String sql = "SELECT * WHERE movie_id = :movieId";
+		Query query = entityManager.createNativeQuery(sql, Movie.class)
+				.setParameter("movieId", movieId);
+		return (Movie) query.getSingleResult();
+	}
     
-    public List<Person> initAdmin(){
-    	List<Person> dba = new ArrayList<>();
-    	
-        // Admin admin1 = new Admin("juan","123",25,"notiene@notiene","32323232","blockcluster1","123");
-        
-        // Admin admin2 = new Admin("andrea","234",25,"notiene@notiene","32323232","blockcluster2","234");
-        
-        // dba.add(admin1); 
-        // dba.add(admin2);
-        return dba;
-    }
-    
-    public List<Person> initClient(){
-    	List<Person> dbc = new ArrayList<>();
-    	List<String> preference = null;
-    	 	
-        // Client client1 = new Client("andrea","111",20,"notiene@notiene","3207080333","cliente1","cliente1", Arrays.asList(Genre.ACCION, Genre.AVENTURA));
-        // Client client2 = new Client("ramon","222","20","notiene@notiene","3012502835","cliente2","cliente2");
-        // Client client3 = new Client("pablo","333","20","notiene@notiene","3182506735","cliente3","cliente3");
-    
-        // dbc.add(client1); 
-        // dbc.add(client2);
-        // dbc.add(client3);
-        return dbc;
-    }
-    
-    public void initSampleData() throws InterruptedException {
-        this.dataBase = AdminService.getTrendingMovies(0);
-    }
-    
-    public Movie updateMovie(int idMovie, Movie movie) {
-    	for(Movie movies : dataBase) {
-    		if(movies.getId() == idMovie) {
-    			movies = movie;
-    			return movies;
-    		}
-    	}
-    	
-    	return null;
-    }
-
-    public Movie createMovie(Movie movie) {
-        dataBase.add(movie);
-        return movie;
-    }
+	@Transactional
+	public List<Movie> getPurchaseHistory() {
+		Person sesion = ClientSesion.getInstance().getClient();
+		String sql = "SELECT movie_id, price WHERE client_id = :client_id";
+		Query query = entityManager.createNativeQuery(sql, PurchaseHistory.class)
+				.setParameter("client_id", sesion.getId());
+		List<PurchaseHistory> history = query.getResultList();
+		List<Movie> result = new ArrayList<>();
+		for(PurchaseHistory purchase : history) {
+			result.add(getMovieById(purchase.getMovie_id()));
+		}
+		
+		return result;
+	}
+	
+	@Transactional
+	public Person getClientByUser(String user) {
+		String sql = "SELECT * WHERE id_rol = 1 AND usuario = :user";
+		Query query = entityManager.createNativeQuery(sql, Person.class)
+				.setParameter("user", user);
+		return (Person) query.getSingleResult();
+	}
 }

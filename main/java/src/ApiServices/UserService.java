@@ -25,13 +25,16 @@ public class UserService {
 	private final RestTemplate restTemplate = new RestTemplate();
 
 	@Autowired
-	public UserService(OwnRepository repository) throws InterruptedException {
+	public UserService(OwnRepository repository) {
 		this.repository = repository;
-		repository.initSampleData();
 	}
 
     public List<Person> getClients() {
     	return repository.getClients();
+    }
+    
+    public List<Movie> getAvailableMovies() {
+    	return repository.getAvailableMovies();
     }
     	
 
@@ -66,6 +69,14 @@ public class UserService {
 			System.out.println(response.getBody());
 			return response.getBody();
 			
+	}
+
+	public List<Movie> getPurchaseHistory() {
+		return repository.getPurchaseHistory();
+	}
+	
+	public Person getClientByUser(String user) {
+		return repository.getClientByUser(user);
 	}
 
 }
