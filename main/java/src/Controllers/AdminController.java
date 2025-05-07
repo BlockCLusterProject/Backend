@@ -44,16 +44,16 @@ public class AdminController {
         this.adminService = adminService;
     }
     
-    @GetMapping("/available_movies")
+    @GetMapping("/getAllMovies")
     @Operation(summary = "Obtener las pel�culas disponibles", description = "Devuelve una lista con todas las pel�culas disponibles en la base de datos local")
     @ApiResponses(value = {
     		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
     		@ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<List<Movie>> getAvailableMovies(
+    public ResponseEntity<List<Movie>> getAllMovies(
             @RequestParam(required = false) int genre) {
-        List<Movie> movies = adminService.searchByFilters(genre);
+        List<Movie> movies = adminService.getAllMovies();
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
     @GetMapping("/trending_movies")
@@ -67,7 +67,7 @@ public class AdminController {
     	if(genre == null) {
     		genre = 0;
     	}
-        List<Movie> movies = adminService.getTrendingMovies(genre);
+        List<Movie> movies = AdminService.getTrendingMovies(genre);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
     
