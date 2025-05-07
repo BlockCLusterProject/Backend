@@ -51,13 +51,13 @@ public class Movie {
 	@JsonProperty("rate")
     private double rate;
 
-	@Column(name = "genres", columnDefinition = "JSON", nullable = false)
+	@Column(name = "genres", columnDefinition = "JSON", nullable = true)
 	@Convert(converter = GenreListConverter.class)
     @JsonProperty("genres")
     @SerializedName("genres")
     private List<Genre> genres;
 
-	@Column(name = "genre_ids", nullable = false)
+	@Column(name = "genre_ids", nullable = true)
     @JsonProperty("genre_ids")
     private List<Integer> genre_ids;
 
