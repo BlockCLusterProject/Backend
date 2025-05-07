@@ -5,8 +5,7 @@
 package Controllers;
 
 import ApiServices.UserService;
-import Models.Admin;
-import Models.Client;
+import Models.Person;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -34,7 +33,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/users")
-@Tag(name = "User", description = "API para la gestión de usuarios")
+@Tag(name = "User", description = "API para la gestiï¿½n de usuarios")
 public class UserController {
     private final UserService userService;
 
@@ -43,10 +42,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Operation(summary = "Obtener las películas disponibles", description = "Devuelve una lista con todas las películas disponibles en la base de datos local")
+    @Operation(summary = "Obtener las pelï¿½culas disponibles", description = "Devuelve una lista con todas las pelï¿½culas disponibles en la base de datos local")
     @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con éxito"),
-    		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
+    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con ï¿½xito"),
+    		@ApiResponse(responseCode = "404", description = "Pelï¿½culas no disponibles"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/available_movies")
@@ -62,19 +61,19 @@ public class UserController {
     @GetMapping("/validateAdmin")
     @Operation(summary = "Obtener admin", description = "Devuelve un admin")
     @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Admin obtenido con éxito"),
+    		@ApiResponse(responseCode = "200", description = "Admin obtenido con ï¿½xito"),
     		@ApiResponse(responseCode = "404", description = "Admin no encontrado"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     
-    public ResponseEntity<Admin> searchAdmin(
+    public ResponseEntity<Person> searchAdmin(
             @RequestParam(required = false) String user,
             @RequestParam(required = false) String password) {
     	System.out.println(user+" : "+password);
     	if (user == null || password == null) {
     		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
     	}
-        Admin admin = userService.searchAdmin(user, password);
+        Person admin = userService.searchAdmin(user, password);
         return new ResponseEntity<>(admin, HttpStatus.OK);
     }
     
@@ -85,7 +84,7 @@ public class UserController {
     		@ApiResponse(responseCode = "204", description = "Admin no encontrado"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<Client> registerClient(@RequestBody Client user) {
+    public ResponseEntity<Person> registerClient(@RequestBody Person user) {
     boolean newUser = userService.registerClient(user);
     return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
@@ -99,21 +98,21 @@ public class UserController {
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     
-    public ResponseEntity<Client> searchClient(
+    public ResponseEntity<Person> searchClient(
             @RequestParam(required = false) String user,
             @RequestParam(required = false) String password) {
     	if (user == null || password == null) {
     		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
     	}
-    	Client client = userService.searchClient(user, password);
+    	Person client = userService.searchClient(user, password);
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
     
     @GetMapping(value="/generate-qr")
-    @Operation(summary="Obtener el código QR de la factura", description = "Devuele el código QR de la factura")
+    @Operation(summary="Obtener el cï¿½digo QR de la factura", description = "Devuele el cï¿½digo QR de la factura")
     @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Código generado correctamente"),
-    		@ApiResponse(responseCode = "400", description = "Error al hacer la petición"),
+    		@ApiResponse(responseCode = "200", description = "Cï¿½digo generado correctamente"),
+    		@ApiResponse(responseCode = "400", description = "Error al hacer la peticiï¿½n"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     public ResponseEntity<String> generateQr(

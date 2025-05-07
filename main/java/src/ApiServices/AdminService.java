@@ -1,7 +1,7 @@
 
 package ApiServices;
 
-import Models.Client;
+import Models.Person;
 import Models.Genre;
 import Models.Movie;
 import Repository.OwnRepository;
@@ -41,7 +41,7 @@ public class AdminService {
         // repository.initSampleData();
     }
     
-    public List<Client> getClients() {
+    public List<Person> getClients() {
     	return repository.getClients();
     }
     	
