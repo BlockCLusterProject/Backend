@@ -41,10 +41,6 @@ public class AdminService {
         // repository.initSampleData();
     }
     
-    public List<Person> getClients() {
-    	return repository.getClients();
-    }
-    	
     public List<Movie> searchByFilters(int genre) {
         return repository.searchByFilters(genre);
     }
