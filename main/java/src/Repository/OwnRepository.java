@@ -5,6 +5,7 @@ import Models.Genre;
 import Models.Movie;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
@@ -35,6 +36,41 @@ public class OwnRepository {
     	dataBaseAdmin = initAdmin();
     	dataBaseClient = initClient();
     }
+    
+    @Transactional
+	public Person searchClient(String user, String password) {
+	    try {
+	        String sql = "SELECT * FROM users WHERE user =:user AND password =:password";
+	        return (Person) entityManager.createNativeQuery(sql, Person.class)
+	            .setParameter("user", user)
+	            .setParameter("password", password)
+	            .getSingleResult();
+	    } catch (NoResultException e) {
+	        return null;
+	    }
+	}
+	
+	@Transactional
+	public boolean registerClient(Person user) {
+	    try {
+	       
+	        boolean exists = entityManager.createQuery(
+	            "SELECT * FROM users WHERE user = :user OR email = :email", Boolean.class)
+	            .setParameter("user", user.getUser())
+	            .setParameter("email", user.getCorreo())
+	            .getSingleResult();
+	        
+	        if (exists) {
+	            return false; 
+	        }
+	        
+	        entityManager.persist(user);
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
     
     @Transactional
     public List<Person> getClients() {
@@ -73,16 +109,6 @@ public class OwnRepository {
 	    }
 	    return null;
 	}
-	
-	public Person searchClient (String user, String password){
-		System.out.println(user +" : "+password);	
-		for(Person client : dataBaseClient) {
-		    if(client.getUser().equals(user) && client.getPassword().equals(password)){
-		         return client;
-		    }
-	      }
-		  return null;
-	}
     
     public List<Person> initAdmin(){
     	List<Person> dba = new ArrayList<>();
@@ -108,11 +134,6 @@ public class OwnRepository {
         // dbc.add(client2);
         // dbc.add(client3);
         return dbc;
-    }
-    
-    public boolean registerClient(Person user) {
-    	dataBaseClient.add(user);
-    	return true;
     }
     
     public void initSampleData() throws InterruptedException {

@@ -44,12 +44,6 @@ public class AdminController {
         this.adminService = adminService;
     }
     
-    @GetMapping("/prueba_get")
-    public ResponseEntity<List<Person>> getClients() {
-    	List<Person> clients = adminService.getClients();
-    	return new ResponseEntity<>(clients, HttpStatus.OK);
-    }
-
     @GetMapping("/available_movies")
     @Operation(summary = "Obtener las pel�culas disponibles", description = "Devuelve una lista con todas las pel�culas disponibles en la base de datos local")
     @ApiResponses(value = {

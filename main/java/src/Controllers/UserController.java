@@ -57,6 +57,13 @@ public class UserController {
         List<Movie> movies = userService.searchByFilters(genre);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
+
+    @GetMapping("/prueba_get")
+    public ResponseEntity<List<Person>> getClients() {
+    	List<Person> clients = userService.getClients();
+    	return new ResponseEntity<>(clients, HttpStatus.OK);
+    }
+
     
     @GetMapping("/validateAdmin")
     @Operation(summary = "Obtener admin", description = "Devuelve un admin")
