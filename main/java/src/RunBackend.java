@@ -11,7 +11,8 @@ import io.github.cdimascio.dotenv.Dotenv;
     "Controllers",
     "ApiServices",
     "Models",
-    "Repository"
+    "Repository",
+    "config"
 })
 @EntityScan(basePackages = {
 		"Models"
