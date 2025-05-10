@@ -30,7 +30,7 @@ public class Movie {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer db_id;
+	private int id;
 
 	@Column(name = "title", nullable = false)
 	@JsonProperty("title")
@@ -88,10 +88,6 @@ public class Movie {
     @SerializedName("precio")
     @JsonProperty("price")
     private double price;
-
-    @JsonProperty("id")
-    @SerializedName("id")
-    private int id;
     
     
     public Movie() {}

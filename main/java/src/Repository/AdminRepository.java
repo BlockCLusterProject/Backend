@@ -1,7 +1,7 @@
 package Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import Models.Movie;
@@ -19,8 +19,8 @@ public class AdminRepository {
 
     @Transactional
     public List<Movie> getAvailableMovies() {
-        Query query = (Query) entityManager.createNativeQuery("SELECT * FROM movies", Movie.class);
-        return ((jakarta.persistence.Query) query).getResultList();
+        Query query = entityManager.createNativeQuery("SELECT * FROM movies", Movie.class);
+        return  query.getResultList();
     }
 
     @Transactional
@@ -31,21 +31,21 @@ public class AdminRepository {
 
     @Transactional
     public Movie updateMovie(int id_movie, Movie movie){
-        Query query = (Query) entityManager.createNativeQuery("""
+        Query query = entityManager.createNativeQuery("""
             UPDATE movies SET title= :title, runtime= :runtime, vote_average= :rate, price= :price, overview= :overview, backdrop_path= :backdrop_path, is_active= :is_active, quantity= :quantity WHERE id IS NULL;
 
             SELECT * FROM movies WHERE id = :id
         """, Movie.class);
-        ((jakarta.persistence.Query) query).setParameter("title", movie.getTitle());
-        ((jakarta.persistence.Query) query).setParameter("backdrop_path", movie.getBackdrop_path());
-        ((jakarta.persistence.Query) query).setParameter("overview", movie.getOverview());
-        ((jakarta.persistence.Query) query).setParameter("quantity", movie.getCantidad());
-        ((jakarta.persistence.Query) query).setParameter("price", movie.getPrice());
-        ((jakarta.persistence.Query) query).setParameter("rate", movie.getRate());
-        ((jakarta.persistence.Query) query).setParameter("runtime", movie.getRuntime());
-        ((jakarta.persistence.Query) query).setParameter("is_active", movie.isActive() ? 1 : 0);
-        ((jakarta.persistence.Query) query).setParameter("id", id_movie);
-        Movie producto = (Movie) ((jakarta.persistence.Query) query).getSingleResult();
+        query.setParameter("title", movie.getTitle());
+        query.setParameter("backdrop_path", movie.getBackdrop_path());
+        query.setParameter("overview", movie.getOverview());
+        query.setParameter("quantity", movie.getCantidad());
+        query.setParameter("price", movie.getPrice());
+        query.setParameter("rate", movie.getRate());
+        query.setParameter("runtime", movie.getRuntime());
+        query.setParameter("is_active", movie.isActive() ? 1 : 0);
+        query.setParameter("id", id_movie);
+        Movie producto = (Movie) query.getSingleResult();
         
         return producto;
     }
