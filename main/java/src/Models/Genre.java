@@ -50,25 +50,25 @@ public enum Genre implements Serializable {
     private static final Map<String, Genre> NAME_TO_GENRE = new HashMap<>();
 
     static {
-        NAME_TO_GENRE.put("accion", ACCION);
-        NAME_TO_GENRE.put("animacion", ANIMACION);
-        NAME_TO_GENRE.put("aventura", AVENTURA);
-        NAME_TO_GENRE.put("documental", DOCUMENTAL);
-        NAME_TO_GENRE.put("drama", DRAMA);
-        NAME_TO_GENRE.put("familiar", FAMILIAR);
-        NAME_TO_GENRE.put("fantasia", FANTASIA);
-        NAME_TO_GENRE.put("historia", HISTORIA);
-        NAME_TO_GENRE.put("comedia", COMEDIA);
-        NAME_TO_GENRE.put("guerra", GUERRA);
-        NAME_TO_GENRE.put("crimen", CRIMEN);
-        NAME_TO_GENRE.put("musica", MUSICA);
-        NAME_TO_GENRE.put("misterio", MISTERIO);
-        NAME_TO_GENRE.put("romance", ROMANCE);
-        NAME_TO_GENRE.put("ciencia ficcion", CIENCIA_FICCION);
-        NAME_TO_GENRE.put("terror", TERROR);
-        NAME_TO_GENRE.put("pelicula de tv", MOVIE_TV);
-        NAME_TO_GENRE.put("thriller", THRILLER);
-        NAME_TO_GENRE.put("western", WESTERN);
+        NAME_TO_GENRE.put("Accion", ACCION);
+        NAME_TO_GENRE.put("Animacion", ANIMACION);
+        NAME_TO_GENRE.put("Aventura", AVENTURA);
+        NAME_TO_GENRE.put("Documental", DOCUMENTAL);
+        NAME_TO_GENRE.put("Drama", DRAMA);
+        NAME_TO_GENRE.put("Familiar", FAMILIAR);
+        NAME_TO_GENRE.put("Fantasia", FANTASIA);
+        NAME_TO_GENRE.put("Historia", HISTORIA);
+        NAME_TO_GENRE.put("Comedia", COMEDIA);
+        NAME_TO_GENRE.put("Guerra", GUERRA);
+        NAME_TO_GENRE.put("Crimen", CRIMEN);
+        NAME_TO_GENRE.put("Musica", MUSICA);
+        NAME_TO_GENRE.put("Misterio", MISTERIO);
+        NAME_TO_GENRE.put("Romance", ROMANCE);
+        NAME_TO_GENRE.put("Ciencia ficcion", CIENCIA_FICCION);
+        NAME_TO_GENRE.put("Terror", TERROR);
+        NAME_TO_GENRE.put("Pelicula de tv", MOVIE_TV);
+        NAME_TO_GENRE.put("Thriller", THRILLER);
+        NAME_TO_GENRE.put("Western", WESTERN);
     }
 
     public static Genre getGenreByName(String movieName) {

@@ -66,7 +66,7 @@ public class AdminService {
             return null;
         }
     }
-    
+
     public Movie updateMovie(int idMovie, Movie movie) {
         return repository.updateMovie(idMovie, movie);
     }

@@ -5,6 +5,7 @@ import Models.Movie;
 import Repository.OwnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,15 +24,22 @@ import java.util.List;
 public class UserService {
 	private final OwnRepository repository;
 	private final RestTemplate restTemplate = new RestTemplate();
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserService(OwnRepository repository) throws InterruptedException {
+	public UserService(
+			OwnRepository repository,
+			PasswordEncoder passwordEncoder) {
 		this.repository = repository;
-		repository.initSampleData();
+		this.passwordEncoder = passwordEncoder;
 	}
 
     public List<Person> getClients() {
     	return repository.getClients();
+    }
+    
+    public List<Movie> getAvailableMovies() {
+    	return repository.getAvailableMovies();
     }
     	
 
@@ -48,6 +56,7 @@ public class UserService {
 	}
 	
 	public boolean registerClient (Person user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return repository.registerClient(user);
 	}
 	
@@ -66,6 +75,19 @@ public class UserService {
 			System.out.println(response.getBody());
 			return response.getBody();
 			
+	}
+
+	public List<Movie> getPurchaseHistory() {
+		return repository.getPurchaseHistory();
+	}
+	
+	public Person getClientByUser(String user) {
+		return repository.getClientByUser(user);
+	}
+	
+	public Person validateUser(String user, String password) {
+		return repository.validateUser(user,  password);
+		//return repository.validateUser(user, passwordEncoder.encode(password));
 	}
 
 }

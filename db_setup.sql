@@ -3,6 +3,7 @@ USE blockcluster;
 
 CREATE TABLE movies (
 	id INT AUTO_INCREMENT PRIMARY KEY,
+	movie_id VARCHAR(100) NOT NULL,
 	title VARCHAR(100) NOT NULL,
 	runtime INT NOT NULL CHECK (runtime >= 0),
 	vote_average DECIMAL(10, 2) CHECK (vote_average >= 0),
@@ -42,7 +43,7 @@ INSERT INTO users (
 	id_rol, nombre, cedula, age, email, phone, preferences, usuario, contrasena
 ) VALUES (
 	1, 'Juan Pérez', '1234567890', 30,
-	'juan.perez@example.com', '+57-3001234567', '{}',
+	'juan.perez@example.com', '+57-3001234567', '{}	',
 	'juanperez', 'holi'
 );
 
