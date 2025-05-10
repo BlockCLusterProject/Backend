@@ -41,11 +41,45 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    @Operation(summary = "Obtener las pel�culas disponibles", description = "Devuelve una lista con todas las pel�culas disponibles en la base de datos local")
+    
+    @Operation(summary = "Obtener un usuario a partir de su usuario",
+    		description = "Devuelve una persona si es encontrado, sino, devuelve un null")
     @ApiResponses(value = {
     		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
-    		@ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
+    		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/{user}")
+    public ResponseEntity<Person> getClientByUser(@RequestParam(required = true) String user) {
+    	Person client = userService.getClientByUser(user);
+    	if(client != null) {
+    		return new ResponseEntity<>(client, HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    	}
+    }
+    
+    @Operation(summary = "Obtener las películas compradas por un usuario",
+    		description = "Devuelve una lista de películas compradas por un usuario")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
+    		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/purchase_history")
+    public ResponseEntity<List<Movie>> getPurchaseHistory() {
+    	List<Movie> movies = userService.getPurchaseHistory();
+    	if(movies != null) {
+			return new ResponseEntity<>(movies, HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    	}
+    }
+
+    @Operation(summary = "Obtener las películas disponibles", description = "Devuelve una lista con todas las películas disponibles en la base de datos local")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
+    		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/available_movies")
@@ -112,6 +146,26 @@ public class UserController {
     		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
     	}
     	Person client = userService.searchClient(user, password);
+        return new ResponseEntity<>(client, HttpStatus.OK);
+    }
+
+    @GetMapping("/validateUser")
+    @Operation(
+		summary = "Validar existencia de usuario", 
+		description = "Devuelve una clase Person si existe el usuario en la base de datos")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Client obtenido con exito"),
+    		@ApiResponse(responseCode = "404", description = "Client no encontrado"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    
+    public ResponseEntity<Person> validateUser(
+            @RequestParam(required = false) String user,
+            @RequestParam(required = false) String password) {
+    	if (user == null || password == null) {
+    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
+    	}
+    	Person client = userService.validateUser(user, password);
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
     

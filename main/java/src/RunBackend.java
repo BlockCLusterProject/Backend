@@ -29,6 +29,7 @@ public class RunBackend {
         System.setProperty("db_url", dotenv.get("DB_URL"));
         System.setProperty("db_user", dotenv.get("USER_DB"));
         System.setProperty("db_password", dotenv.get("PASSWORD_DB"));
+        System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
         SpringApplication.run(RunBackend.class, args);
     }
 }
