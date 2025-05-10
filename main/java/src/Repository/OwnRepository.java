@@ -25,6 +25,21 @@ public class OwnRepository {
     public OwnRepository() throws InterruptedException {
     }
     
+    @Transactional 
+    public Person validateUser(String user, String password) {
+    	try {
+			String sql = "SELECT * FROM users WHERE usuario = :user";
+			Person response = (Person) entityManager.createNativeQuery(sql, Person.class)
+					.setParameter("user", user)
+					.getSingleResult();
+			if(response.getPassword().equals(password)) {
+				return response;
+			}
+			return null;
+    	} catch(NoResultException e) {
+    		return null;
+    	}
+    }
     
     @Transactional
 	public Person searchClient(String user, String password) {

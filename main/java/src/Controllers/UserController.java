@@ -148,6 +148,26 @@ public class UserController {
     	Person client = userService.searchClient(user, password);
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
+
+    @GetMapping("/validateUser")
+    @Operation(
+		summary = "Validar existencia de usuario", 
+		description = "Devuelve una clase Person si existe el usuario en la base de datos")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Client obtenido con exito"),
+    		@ApiResponse(responseCode = "404", description = "Client no encontrado"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    
+    public ResponseEntity<Person> validateUser(
+            @RequestParam(required = false) String user,
+            @RequestParam(required = false) String password) {
+    	if (user == null || password == null) {
+    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
+    	}
+    	Person client = userService.validateUser(user, password);
+        return new ResponseEntity<>(client, HttpStatus.OK);
+    }
     
     @GetMapping(value="/generate-qr")
     @Operation(summary="Obtener el c�digo QR de la factura", description = "Devuele el c�digo QR de la factura")

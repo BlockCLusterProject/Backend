@@ -5,6 +5,7 @@ import Models.Movie;
 import Repository.OwnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,10 +24,14 @@ import java.util.List;
 public class UserService {
 	private final OwnRepository repository;
 	private final RestTemplate restTemplate = new RestTemplate();
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserService(OwnRepository repository) {
+	public UserService(
+			OwnRepository repository,
+			PasswordEncoder passwordEncoder) {
 		this.repository = repository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
     public List<Person> getClients() {
@@ -51,6 +56,7 @@ public class UserService {
 	}
 	
 	public boolean registerClient (Person user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return repository.registerClient(user);
 	}
 	
@@ -77,6 +83,11 @@ public class UserService {
 	
 	public Person getClientByUser(String user) {
 		return repository.getClientByUser(user);
+	}
+	
+	public Person validateUser(String user, String password) {
+		return repository.validateUser(user,  password);
+		//return repository.validateUser(user, passwordEncoder.encode(password));
 	}
 
 }
