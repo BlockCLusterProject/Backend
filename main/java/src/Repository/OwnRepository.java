@@ -2,6 +2,7 @@ package Repository;
 import Models.Person;
 import ApiServices.AdminService;
 import Entities.PurchaseHistory;
+import Entities.Rol;
 import Models.ClientSesion;
 import Models.Genre;
 import Models.Movie;
@@ -33,12 +34,21 @@ public class OwnRepository {
 					.setParameter("user", user)
 					.getSingleResult();
 			if(response.getPassword().equals(password)) {
+				System.out.println("return");
 				return response;
 			}
 			return null;
     	} catch(NoResultException e) {
     		return null;
     	}
+    }
+    
+    @Transactional
+    public Integer getIdRol(String nameRol) {
+    	Rol idRol = (Rol) entityManager.createNativeQuery("SELECT * FROM rol WHERE rol = :rol", Rol.class)
+    			.setParameter("rol", nameRol)
+    			.getSingleResult();
+    	return idRol.getId();
     }
     
     @Transactional

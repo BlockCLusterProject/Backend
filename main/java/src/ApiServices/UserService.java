@@ -81,5 +81,9 @@ public class UserService {
 		return repository.validateUser(user,  password);
 		//return repository.validateUser(user, passwordEncoder.encode(password));
 	}
+	
+	public Integer getIdRol(String rol) {
+		return repository.getIdRol(rol);
+	}
 
 }

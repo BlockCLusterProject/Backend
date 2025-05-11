@@ -157,5 +157,12 @@ public class Person {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+	@Override
+	public String toString() {
+		return "Person [nombre=" + nombre + ", id=" + id + ", cedula=" + cedula + ", idRol=" + idRol + ", edad=" + edad
+				+ ", correo=" + correo + ", telefono=" + telefono + ", user=" + user + ", password=" + password
+				+ ", preferences=" + preferences + "]";
+	}
     
 }
