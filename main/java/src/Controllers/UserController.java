@@ -168,6 +168,13 @@ public class UserController {
     	Person client = userService.validateUser(user, password);
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
+
+    @GetMapping("getIdRol/{rol}")
+    public ResponseEntity<Integer> getIdRol(
+    		@RequestParam(required = true) String rol) {
+    	Integer response = userService.getIdRol(rol);
+    	return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     
     @GetMapping(value="/generate-qr")
     @Operation(summary="Obtener el c�digo QR de la factura", description = "Devuele el c�digo QR de la factura")
@@ -185,6 +192,7 @@ public class UserController {
     	String base64 = Base64.getEncoder().encodeToString(image);
     	return new ResponseEntity<>(base64, HttpStatus.OK);
     }
+    
     
 
 }
