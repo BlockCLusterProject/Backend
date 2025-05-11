@@ -56,9 +56,9 @@ public class Person {
     @Column(name = "contrasena")
     private String password;
 
-    @Convert(converter = GenreListConverter.class)
-    @Column(name = "preferences", columnDefinition = "json")
-    private List<Genre> preferences;
+   // @Convert(converter = GenreListConverter.class)
+   // @Column(name = "preferences", columnDefinition = "json", nullable = true)
+   // private List<Genre> preferences;
 
     public Person(
     		int id, 
@@ -79,7 +79,7 @@ public class Person {
         this.edad = edad;
         this.correo = correo;
         this.telefono = telefono;
-        this.preferences = preferences;
+        //this.preferences = preferences;
         this.user = user;
         this.password = password;
     }
@@ -103,11 +103,11 @@ public class Person {
     }
     
     public List<Genre> getPreferences() {
-    	return preferences;
+    	return null ;
     }
     
     public void setPreferences(List<Genre> preferences) {
-    	this.preferences = preferences;
+//    	this.preferences = preferences;
     }
     
     public int getId() {
@@ -157,9 +157,5 @@ public class Person {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-    
-    
-    
-    
     
 }

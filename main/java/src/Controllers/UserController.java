@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -105,9 +109,12 @@ public class UserController {
     		@ApiResponse(responseCode = "204", description = "Admin no encontrado"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<Person> registerClient(@RequestBody Person user) {
-    boolean newUser = userService.registerClient(user);
-    return new ResponseEntity<>(null, HttpStatus.CREATED);
+    public ResponseEntity<Person> registerClient(@RequestParam(required = true)  String user) throws JsonMappingException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+       // {"id":1,"nombre":"Juan Pérez","idRol":2,"cedula":"1234567890","edad":30,"correo":"juan.perez@example.com","telefono":"0991234567","user":"juanp","password":"1234"}
+        Person User = mapper.readValue(user, Person.class);
+        Person newUser = userService.registerClient(User);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     

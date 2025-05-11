@@ -47,7 +47,7 @@ public class UserService {
 		return repository.searchByFilters(genre);
 	}
 	
-	public boolean registerClient (Person user) {
+	public Person registerClient (Person user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return repository.registerClient(user);
 	}
