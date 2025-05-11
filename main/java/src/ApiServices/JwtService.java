@@ -11,13 +11,14 @@ import org.springframework.stereotype.Service;
 import Models.Person;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 
 @Service
 public class JwtService {
 
-	@Value("${JWT_SECRET")
+	@Value("${JWT_SECRET}")
 	private String secretCode;
 	
 	private SecretKey jwtSecret;
@@ -28,6 +29,7 @@ public class JwtService {
 		if(secretCode == null || secretCode.trim().isEmpty()) {
 			throw new IllegalStateException("JWT_SECRET debe estar configurado en application.properties");
 		}
+		System.out.println(secretCode.getBytes(StandardCharsets.UTF_8));
 		jwtSecret = Keys.hmacShaKeyFor(secretCode.getBytes(StandardCharsets.UTF_8));
 	}
 	

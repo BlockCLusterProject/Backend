@@ -1,14 +1,11 @@
 
 package ApiServices;
 
-import Models.Person;
+import io.github.cdimascio.dotenv.Dotenv;
 import Models.Genre;
 import Models.Movie;
+import Repository.AdminRepository;
 import Repository.OwnRepository;
-import io.github.cdimascio.dotenv.Dotenv;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,23 +23,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.lang.reflect.Type;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 
 @Service
 public class AdminService {
-    private final OwnRepository repository;
-    
+    private final AdminRepository repository;
+
     @Autowired
-    public AdminService(OwnRepository repository) throws InterruptedException {
+    public AdminService(AdminRepository repository) throws InterruptedException {
         this.repository = repository;
-        // repository.initSampleData();
-    }
-    
-    public List<Movie> searchByFilters(int genre) {
-        return repository.searchByFilters(genre);
     }
 
     public static List<Movie> getTrendingMovies(int genre) throws InterruptedException {
@@ -70,14 +58,6 @@ public class AdminService {
             JsonNode dataNode = root.get("results");
             System.out.println(dataNode);
             List<Movie> movies = mapper.readValue(dataNode.toString(), new TypeReference<List<Movie>>() {});
-            for(Movie movie : movies) {
-				List<Genre> genres = movie.getGenre_ids().stream()
-						.map(Genre::getGenreById)
-						.collect(Collectors.toList());
-                movie.setGenres(genres);
-                movie.setCantidad(1);
-                movie.setPrice(23000);
-            }
             System.out.println(movies.get(0).getTitle());
             return movies;
 
@@ -86,5 +66,17 @@ public class AdminService {
             return null;
         }
     }
-    
+
+    public Movie updateMovie(int idMovie, Movie movie) {
+        return repository.updateMovie(idMovie, movie);
+    }
+
+    public Movie createMovie(Movie movie) {
+        repository.createMovie(movie);
+        return movie;
+    }
+
+    public List<Movie> getAllMovies() {
+        return repository.getAvailableMovies();
+    }
 }
