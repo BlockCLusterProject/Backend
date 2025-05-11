@@ -65,24 +65,21 @@ public class OwnRepository {
 	}
 	
 	@Transactional
-	public boolean registerClient(Person user) {
+	public Person registerClient(Person user) {
 	    try {
-	       
-	        boolean exists = entityManager.createQuery(
-	            "SELECT * FROM users WHERE user = :user OR email = :email", Boolean.class)
-	            .setParameter("user", user.getUser())
-	            .setParameter("email", user.getCorreo())
-	            .getSingleResult();
-	        
-	        if (exists) {
-	            return false; 
-	        }
-	        
+          //  Person exists = entityManager.createQuery(
+	      //          "SELECT * FROM users WHERE usuario = :user OR email = :email", Person.class)
+	      //          .setParameter("user", user.getUser())
+	      //          .setParameter("email", user.getCorreo())
+	       //         .getSingleResult();
+	            // Si llega aquí, encontró un resultado
+	            //return exists;
 	        entityManager.persist(user);
-	        return true;
+	        return user; 
 	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return false;
+            // No se encontró ningún resultado
+//	        entityManager.persist(user);
+	        return user; 
 	    }
 	}
     

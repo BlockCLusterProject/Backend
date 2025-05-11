@@ -46,16 +46,8 @@ public class UserService {
 	public List<Movie> searchByFilters(int genre) {
 		return repository.searchByFilters(genre);
 	}
-
-	public Person searchAdmin (String user, String password){
-		return repository.searchAdmin(user, password);
-	}
 	
-	public Person searchClient (String user, String password){
-		return repository.searchClient(user, password);
-	}
-	
-	public boolean registerClient (Person user) {
+	public Person registerClient (Person user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return repository.registerClient(user);
 	}

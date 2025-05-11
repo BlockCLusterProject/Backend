@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -97,26 +101,6 @@ public class UserController {
     	List<Person> clients = userService.getClients();
     	return new ResponseEntity<>(clients, HttpStatus.OK);
     }
-
-    
-    @GetMapping("/validateAdmin")
-    @Operation(summary = "Obtener admin", description = "Devuelve un admin")
-    @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Admin obtenido con �xito"),
-    		@ApiResponse(responseCode = "404", description = "Admin no encontrado"),
-    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
-    })
-    
-    public ResponseEntity<Person> searchAdmin(
-            @RequestParam(required = false) String user,
-            @RequestParam(required = false) String password) {
-    	System.out.println(user+" : "+password);
-    	if (user == null || password == null) {
-    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
-    	}
-        Person admin = userService.searchAdmin(user, password);
-        return new ResponseEntity<>(admin, HttpStatus.OK);
-    }
     
     @PostMapping("/addUser")
     @Operation(summary = "Agrega un nuevo usuario a la base de datos", description = "Devuelve un boolean")
@@ -125,29 +109,16 @@ public class UserController {
     		@ApiResponse(responseCode = "204", description = "Admin no encontrado"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<Person> registerClient(@RequestBody Person user) {
-    boolean newUser = userService.registerClient(user);
-    return new ResponseEntity<>(null, HttpStatus.CREATED);
+    public ResponseEntity<Person> registerClient(@RequestParam(required = true)  String user) throws JsonMappingException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+       // {"id":1,"nombre":"Juan Pérez","idRol":2,"cedula":"1234567890","edad":30,"correo":"juan.perez@example.com","telefono":"0991234567","user":"juanp","password":"1234"}
+        Person User = mapper.readValue(user, Person.class);
+        Person newUser = userService.registerClient(User);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     
-    @GetMapping("/validateClient")
-    @Operation(summary = "Obtener Client", description = "Devuelve un Client")
-    @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Client obtenido con exito"),
-    		@ApiResponse(responseCode = "404", description = "Client no encontrado"),
-    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
-    })
     
-    public ResponseEntity<Person> searchClient(
-            @RequestParam(required = false) String user,
-            @RequestParam(required = false) String password) {
-    	if (user == null || password == null) {
-    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
-    	}
-    	Person client = userService.searchClient(user, password);
-        return new ResponseEntity<>(client, HttpStatus.OK);
-    }
 
     @GetMapping("/validateUser")
     @Operation(
