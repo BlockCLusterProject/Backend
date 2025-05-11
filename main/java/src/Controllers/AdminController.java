@@ -77,8 +77,10 @@ public class AdminController {
              @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
              @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
-     public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie, @RequestBody Movie movie) {
-     	 return new ResponseEntity<>(adminService.updateMovie(id_movie, movie), HttpStatus.OK);
+     public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie, @RequestParam(required = true) String movie) throws JsonMappingException, JsonProcessingException {
+         ObjectMapper mapper = new ObjectMapper();
+         Movie newMovie = mapper.readValue(movie, Movie.class);
+    	 return new ResponseEntity<>(adminService.updateMovie(id_movie, newMovie), HttpStatus.OK);
      }
 
     @PostMapping("/create_movie")
