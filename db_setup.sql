@@ -7,13 +7,50 @@ CREATE TABLE movies (
 	title VARCHAR(100) NOT NULL,
 	runtime INT NOT NULL CHECK (runtime >= 0),
 	vote_average DECIMAL(10, 2) CHECK (vote_average >= 0),
-	genres JSON NOT NULL,
-	genre_ids JSON NOT NULL,
+	genres JSON,
+	genre_ids JSON,
 	price DOUBLE NOT NULL CHECK (price >= 0),
 	overview VARCHAR(1000) NOT NULL,
 	backdrop_path VARCHAR(100) NOT NULL,
 	is_active BOOLEAN NOT NULL DEFAULT FALSE,
 	quantity INT NOT NULL CHECK (quantity >= 0)
+);
+INSERT INTO movies (
+    movie_id, title, runtime, vote_average, price,
+    overview, backdrop_path, is_active, quantity
+) VALUES
+(
+    'MOV001',
+    'Inception',
+    148,
+    8.8,
+    14.99,
+    'A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea.',
+    '/inception_backdrop.jpg',
+    TRUE,
+    10
+),
+(
+    'MOV002',
+    'The Matrix',
+    136,
+    8.7,
+    12.99,
+    'A computer hacker learns about the true nature of his reality and his role in the war against its controllers.',
+    '/matrix_backdrop.jpg',
+    TRUE,
+    5
+),
+(
+    'MOV003',
+    'The Godfather',
+    175,
+    9.2,
+    10.00,
+    'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.',
+    '/godfather_backdrop.jpg',
+    FALSE,
+    3
 );
 
 

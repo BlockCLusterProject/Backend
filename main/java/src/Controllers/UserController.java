@@ -83,12 +83,8 @@ public class UserController {
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/available_movies")
-    public ResponseEntity<List<Movie>> getAvailableMovies(
-            @RequestParam(required = false) Integer genre) {
-    	if(genre == null) {
-    		genre = 0;
-    	}
-        List<Movie> movies = userService.searchByFilters(genre);
+    public ResponseEntity<List<Movie>> getAvailableMovies() {
+        List<Movie> movies = userService.getAvailableMovies();
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 

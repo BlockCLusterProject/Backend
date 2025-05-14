@@ -98,6 +98,7 @@ public class OwnRepository {
     public List<Movie> getAvailableMovies() {
     	String sql = "SELECT * FROM movies WHERE is_active = TRUE";
     	Query query = entityManager.createNativeQuery(sql, Movie.class);
+    	System.out.println(query.getResultList());
     	return query.getResultList();
     }
 
