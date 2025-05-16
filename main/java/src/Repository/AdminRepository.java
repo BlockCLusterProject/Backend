@@ -48,4 +48,20 @@ public class AdminRepository {
         
         return movie;
     }
+
+    @Transactional
+    public Boolean publishMovies(List<Movie> movies) {
+        try{
+            for(int i = 0; i < movies.size(); i++){
+        		String overView =  movies.get(i).getOverview();
+            	movies.get(i).setOverview( movies.get(i).getOverview().length() > 150 ? overView.substring(0, 147) + "..." 
+            		    : overView);
+                entityManager.persist(movies.get(i));
+            }
+            return true;
+        } catch(Exception ex) {
+        	System.out.print(ex.getMessage());
+            return false;
+        }
+    }
 }
