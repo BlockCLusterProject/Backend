@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ApiServices.AdminService;
 import ApiServices.UserService;
+import Entities.PurchaseHistory;
 import Models.Person;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
@@ -98,5 +99,12 @@ public class AdminController {
         ObjectMapper mapper = new ObjectMapper();
         List<Movie> newMovie = mapper.readValue(movie, new TypeReference<List<Movie>>() {});
         return new ResponseEntity<>(adminService.publishMovies(newMovie), HttpStatus.OK);
+    }
+    
+    @GetMapping("/getPurchaseHistory")
+    @Operation(summary= "Crea peliculas a partir de una lista", description = "")
+    public ResponseEntity<List<PurchaseHistory>> getPurchaseHistory() {
+    	List<PurchaseHistory> purchaseHistory = adminService.getPurchaseHistory();
+    	return new ResponseEntity<>(purchaseHistory, HttpStatus.OK);
     }
 }

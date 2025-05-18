@@ -16,6 +16,8 @@ import com.couchbase.client.core.deps.com.fasterxml.jackson.databind.ObjectMappe
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import Entities.PurchaseHistory;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -82,5 +84,9 @@ public class AdminService {
 
     public Boolean publishMovies(List<Movie> movies) {
         return repository.publishMovies(movies);
+    }
+    
+    public List<PurchaseHistory> getPurchaseHistory() {
+    	return repository.getPurchaseHistory();
     }
 }
