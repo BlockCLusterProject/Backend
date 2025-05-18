@@ -38,7 +38,7 @@ public class AdminRepository {
         query.setParameter("title", movie.getTitle());
         query.setParameter("backdrop_path", movie.getBackdrop_path());
         query.setParameter("overview", movie.getOverview());
-        query.setParameter("quantity", movie.getCantidad());
+        query.setParameter("quantity", movie.getQuantity());
         query.setParameter("price", movie.getPrice());
         query.setParameter("rate", movie.getVote_average());
         query.setParameter("runtime", movie.getRuntime());

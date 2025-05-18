@@ -72,8 +72,8 @@ public class Movie {
     private boolean active = true;
 
 	@Column(name = "quantity", nullable = false)
-    @SerializedName("cantidad")
-    private int cantidad = 0;
+    @SerializedName("quantity")
+    private int quantity = 0;
 
     @JsonProperty("counter")
     private static int counter = 1;
@@ -190,12 +190,12 @@ public class Movie {
         this.active = active;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setQuantity(int cantidad) {
+        this.quantity = cantidad;
     }
 
     public int getId() {
