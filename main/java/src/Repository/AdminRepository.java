@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
+import Entities.PurchaseHistory;
 import Models.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -37,9 +38,9 @@ public class AdminRepository {
         query.setParameter("title", movie.getTitle());
         query.setParameter("backdrop_path", movie.getBackdrop_path());
         query.setParameter("overview", movie.getOverview());
-        query.setParameter("quantity", movie.getCantidad());
+        query.setParameter("quantity", movie.getQuantity());
         query.setParameter("price", movie.getPrice());
-        query.setParameter("rate", movie.getRate());
+        query.setParameter("rate", movie.getVote_average());
         query.setParameter("runtime", movie.getRuntime());
         query.setParameter("is_active", movie.isActive() ? 1 : 0);
         query.setParameter("id", id_movie);
@@ -63,5 +64,11 @@ public class AdminRepository {
         	System.out.print(ex.getMessage());
             return false;
         }
+    }
+    
+    @Transactional 
+    public List<PurchaseHistory> getPurchaseHistory(){
+        Query query = entityManager.createNativeQuery("SELECT * FROM purchases_history ORDER BY id", PurchaseHistory.class);
+        return query.getResultList();
     }
 }
