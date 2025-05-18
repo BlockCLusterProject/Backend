@@ -34,7 +34,7 @@ public class Movie {
 
 	@Column(name = "title", nullable = false)
 	@JsonProperty("title")
-    private String title;
+    private String titulo;
 
 	@Column(name = "vote_average", nullable = false)
     @JsonProperty("vote_average")
@@ -72,8 +72,8 @@ public class Movie {
     private boolean active = true;
 
 	@Column(name = "quantity", nullable = false)
-    @SerializedName("cantidad")
-    private int cantidad = 0;
+    @SerializedName("quantity")
+    private int quantity = 0;
 
     @JsonProperty("counter")
     private static int counter = 1;
@@ -88,7 +88,7 @@ public class Movie {
 
     public Movie(
             String title,
-            int runtime,
+            int duracion,
             double puntuacion,
             List<Genre> generos,
             double precio,
@@ -96,8 +96,8 @@ public class Movie {
             String rutaPortada,
             int cantidad
     ) {
-        this.title = title;
-        this.runtime = runtime;
+        this.titulo = title;
+        this.runtime = duracion;
         this.puntuacion = puntuacion;
         this.genres = generos;
         this.price = precio;
@@ -110,7 +110,7 @@ public class Movie {
     @Override
     public String toString() {
         return "Pelicula{"
-                + "title='" + title + '\''
+                + "title='" + titulo + '\''
                 + ", generos=" + genres
                 + ", duracion=" + runtime
                 + ", puntuacion=" + puntuacion
@@ -119,11 +119,11 @@ public class Movie {
     }
     
     public String getTitle() {
-        return title;
+        return titulo;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.titulo = title;
     }
 
     public int getRuntime() {
@@ -132,6 +132,14 @@ public class Movie {
 
     public void setRuntime(int runtime) {
         this.runtime = runtime;
+    }
+
+    public double getVote_average() {
+        return puntuacion;
+    }
+
+    public void setVote_average(double rate) {
+        this.puntuacion = rate;
     }
 
     public List<Genre> getGenres() {
@@ -182,12 +190,12 @@ public class Movie {
         this.active = active;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setQuantity(int cantidad) {
+        this.quantity = cantidad;
     }
 
     public int getId() {
