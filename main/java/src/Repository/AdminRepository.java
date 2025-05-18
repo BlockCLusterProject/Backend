@@ -11,7 +11,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-
+import java.util.Random;
 @Repository
 public class AdminRepository {
     @PersistenceContext
@@ -57,6 +57,10 @@ public class AdminRepository {
         		String overView =  movies.get(i).getOverview();
             	movies.get(i).setOverview( movies.get(i).getOverview().length() > 150 ? overView.substring(0, 147) + "..." 
             		    : overView);
+
+            	Random random = new Random();
+            	int numeroAleatorio = random.nextInt(131) + 100; // (230 - 100 + 1) = 131
+            	movies.get(i).setRuntime(numeroAleatorio);
                 entityManager.persist(movies.get(i));
             }
             return true;
