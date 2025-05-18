@@ -36,8 +36,6 @@ public class Movie {
 	@JsonProperty("title")
     private String titulo;
 
-    private int duracion;
-
 	@Column(name = "vote_average", nullable = false)
     @JsonProperty("vote_average")
     private double puntuacion;
@@ -46,10 +44,6 @@ public class Movie {
 	@Column(name = "runtime", nullable = false)
 	@SerializedName("runtime")
     private int runtime;
-
-	@SerializedName("puntuacion")
-	@JsonProperty("rate")
-    private double rate;
 
 	@Column(name = "genres", columnDefinition = "JSON", nullable = true)
 	@Convert(converter = GenreListConverter.class)
@@ -104,7 +98,7 @@ public class Movie {
     ) {
         this.titulo = titulo;
         this.runtime = duracion;
-        this.rate = puntuacion;
+        this.puntuacion = puntuacion;
         this.genres = generos;
         this.price = precio;
         this.overview = sinopsis;
@@ -119,7 +113,7 @@ public class Movie {
                 + "titulo='" + titulo + '\''
                 + ", generos=" + genres
                 + ", duracion=" + runtime
-                + ", puntuacion=" + rate
+                + ", puntuacion=" + puntuacion
                 + ", sinopsis='" + overview + '\''
                 + '}';
     }
@@ -140,12 +134,12 @@ public class Movie {
         this.runtime = runtime;
     }
 
-    public double getRate() {
-        return rate;
+    public double getVote_average() {
+        return puntuacion;
     }
 
-    public void setRate(double rate) {
-        this.rate = rate;
+    public void setVote_average(double rate) {
+        this.puntuacion = rate;
     }
 
     public List<Genre> getGenres() {
