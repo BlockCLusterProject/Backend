@@ -79,4 +79,8 @@ public class AdminService {
     public List<Movie> getAllMovies() {
         return repository.getAvailableMovies();
     }
+
+    public Boolean publishMovies(List<Movie> movies) {
+        return repository.publishMovies(movies);
+    }
 }

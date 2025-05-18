@@ -7,6 +7,7 @@ package Controllers;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,10 +85,18 @@ public class AdminController {
      }
 
     @PostMapping("/create_movie")
-    @Operation(summary= "Crea nueva pelicula", description = "Se hace una inserción del administrador")
+    @Operation(summary= "Crea nueva pelicula", description = "")
     public ResponseEntity<Movie> createMovie(@RequestParam(required = true) String movie) throws JsonMappingException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Movie newMovie = mapper.readValue(movie, Movie.class);
         return new ResponseEntity<>(adminService.createMovie(newMovie), HttpStatus.OK);
+    }
+
+    @PostMapping("/publishMovies")
+    @Operation(summary= "Crea peliculas a partir de una lista", description = "")
+    public ResponseEntity<Boolean> publishMovies(@RequestParam(required = true) String movie) throws JsonMappingException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Movie> newMovie = mapper.readValue(movie, new TypeReference<List<Movie>>() {});
+        return new ResponseEntity<>(adminService.publishMovies(newMovie), HttpStatus.OK);
     }
 }
