@@ -5,6 +5,7 @@
 package Controllers;
 
 import ApiServices.UserService;
+import Entities.PurchaseHistory;
 import Models.Person;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,6 +45,17 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+    
+    @PostMapping("/movie/add-purchase-history")
+    public ResponseEntity<PurchaseHistory> addPurchaseHistory(@RequestBody PurchaseHistory purchase) {
+    	PurchaseHistory response = userService.addPurchaseHistory(purchase);
+    	System.out.println(response);
+    	if(response != null) {
+    		return new ResponseEntity<>(response, HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    	}
     }
     
     @Operation(summary = "Obtener un usuario a partir de su usuario",

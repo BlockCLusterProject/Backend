@@ -34,9 +34,7 @@ public class Movie {
 
 	@Column(name = "title", nullable = false)
 	@JsonProperty("title")
-    private String titulo;
-
-    private int duracion;
+    private String title;
 
 	@Column(name = "vote_average", nullable = false)
     @JsonProperty("vote_average")
@@ -46,10 +44,6 @@ public class Movie {
 	@Column(name = "runtime", nullable = false)
 	@SerializedName("runtime")
     private int runtime;
-
-	@SerializedName("puntuacion")
-	@JsonProperty("rate")
-    private double rate;
 
 	@Column(name = "genres", columnDefinition = "JSON", nullable = true)
 	@Convert(converter = GenreListConverter.class)
@@ -93,8 +87,8 @@ public class Movie {
     public Movie() {}
 
     public Movie(
-            String titulo,
-            int duracion,
+            String title,
+            int runtime,
             double puntuacion,
             List<Genre> generos,
             double precio,
@@ -102,9 +96,9 @@ public class Movie {
             String rutaPortada,
             int cantidad
     ) {
-        this.titulo = titulo;
-        this.runtime = duracion;
-        this.rate = puntuacion;
+        this.title = title;
+        this.runtime = runtime;
+        this.puntuacion = puntuacion;
         this.genres = generos;
         this.price = precio;
         this.overview = sinopsis;
@@ -116,20 +110,20 @@ public class Movie {
     @Override
     public String toString() {
         return "Pelicula{"
-                + "titulo='" + titulo + '\''
+                + "title='" + title + '\''
                 + ", generos=" + genres
                 + ", duracion=" + runtime
-                + ", puntuacion=" + rate
+                + ", puntuacion=" + puntuacion
                 + ", sinopsis='" + overview + '\''
                 + '}';
     }
     
     public String getTitle() {
-        return titulo;
+        return title;
     }
 
     public void setTitle(String title) {
-        this.titulo = title;
+        this.title = title;
     }
 
     public int getRuntime() {
@@ -138,14 +132,6 @@ public class Movie {
 
     public void setRuntime(int runtime) {
         this.runtime = runtime;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
     }
 
     public List<Genre> getGenres() {
@@ -208,7 +194,15 @@ public class Movie {
         return id;
     }
 
-    public void setId(int id) {
+	public double getPuntuacion() {
+		return puntuacion;
+	}
+
+	public void setPuntuacion(double puntuacion) {
+		this.puntuacion = puntuacion;
+	}
+
+	public void setId(int id) {
         this.id = id;
     }
 }

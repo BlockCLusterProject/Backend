@@ -32,14 +32,14 @@ public class AdminRepository {
     @Transactional
     public Movie updateMovie(int id_movie, Movie movie){
         Query query = entityManager.createNativeQuery("""
-            UPDATE movies SET title= :title, runtime= :runtime, vote_average= :rate, price= :price, overview= :overview, backdrop_path= :backdrop_path, is_active= :is_active, quantity= :quantity WHERE id = :id;
+            UPDATE movies SET title= :title, runtime= :runtime, vote_average= :vote_average, price= :price, overview= :overview, backdrop_path= :backdrop_path, is_active= :is_active, quantity= :quantity WHERE id = :id;
         """, Movie.class);
         query.setParameter("title", movie.getTitle());
         query.setParameter("backdrop_path", movie.getBackdrop_path());
         query.setParameter("overview", movie.getOverview());
         query.setParameter("quantity", movie.getCantidad());
         query.setParameter("price", movie.getPrice());
-        query.setParameter("rate", movie.getRate());
+        query.setParameter("vote_average", movie.getPuntuacion());
         query.setParameter("runtime", movie.getRuntime());
         query.setParameter("is_active", movie.isActive() ? 1 : 0);
         query.setParameter("id", id_movie);
