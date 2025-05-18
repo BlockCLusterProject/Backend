@@ -38,7 +38,7 @@ public class Movie {
 
 	@Column(name = "vote_average", nullable = false)
     @JsonProperty("vote_average")
-    private double puntuacion;
+    private double vote_average;
 
 	@JsonProperty("runtime")
 	@Column(name = "runtime", nullable = false)
@@ -87,18 +87,18 @@ public class Movie {
     public Movie() {}
 
     public Movie(
-            String titulo,
+            String title,
             int duracion,
-            double puntuacion,
+            double vote_average,
             List<Genre> generos,
             double precio,
             String sinopsis,
             String rutaPortada,
             int cantidad
     ) {
-        this.titulo = titulo;
+        this.titulo = title;
         this.runtime = duracion;
-        this.puntuacion = puntuacion;
+        this.vote_average = vote_average;
         this.genres = generos;
         this.price = precio;
         this.overview = sinopsis;
@@ -110,10 +110,10 @@ public class Movie {
     @Override
     public String toString() {
         return "Pelicula{"
-                + "titulo='" + titulo + '\''
+                + "title='" + titulo + '\''
                 + ", generos=" + genres
                 + ", duracion=" + runtime
-                + ", puntuacion=" + puntuacion
+                + ", vote_average=" + vote_average
                 + ", sinopsis='" + overview + '\''
                 + '}';
     }
@@ -135,11 +135,11 @@ public class Movie {
     }
 
     public double getVote_average() {
-        return puntuacion;
+        return vote_average;
     }
 
     public void setVote_average(double rate) {
-        this.puntuacion = rate;
+        this.vote_average = rate;
     }
 
     public List<Genre> getGenres() {
@@ -202,7 +202,7 @@ public class Movie {
         return id;
     }
 
-    public void setId(int id) {
+	public void setId(int id) {
         this.id = id;
     }
 }

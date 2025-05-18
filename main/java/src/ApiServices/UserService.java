@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import Entities.PurchaseHistory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +34,10 @@ public class UserService {
 			PasswordEncoder passwordEncoder) {
 		this.repository = repository;
 		this.passwordEncoder = passwordEncoder;
+	}
+	
+	public PurchaseHistory addPurchaseHistory(PurchaseHistory purchase) {
+		return repository.addPurchaseHistory(purchase);
 	}
 
     public List<Person> getClients() {

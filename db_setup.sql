@@ -3,17 +3,50 @@ USE blockcluster;
 
 CREATE TABLE movies (
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	movie_id VARCHAR(100) NOT NULL,
-	title VARCHAR(100) NOT NULL,
+	title VARCHAR(255) NOT NULL,
 	runtime INT NOT NULL CHECK (runtime >= 0),
-	vote_average DECIMAL(10, 2) CHECK (vote_average >= 0),
-	genres JSON NOT NULL,
-	genre_ids JSON NOT NULL,
+	vote_average DOUBLE NOT NULL CHECK (vote_average >= 0),
 	price DOUBLE NOT NULL CHECK (price >= 0),
-	overview VARCHAR(1000) NOT NULL,
-	backdrop_path VARCHAR(100) NOT NULL,
-	is_active BOOLEAN NOT NULL DEFAULT FALSE,
-	quantity INT NOT NULL CHECK (quantity >= 0)
+	overview VARCHAR(255) NOT NULL,
+	backdrop_path VARCHAR(255) NOT NULL,
+	is_active TINYINT NOT NULL DEFAULT 0,
+	quantity INT NOT NULL CHECK (quantity >= 0),
+	genre_ids LONGTEXT DEFAULT NULL,
+	genres LONGTEXT DEFAULT NULL
+);
+INSERT INTO movies (
+	title, runtime, vote_average, price,
+   overview, backdrop_path, is_active, quantity
+) VALUES
+(
+    'Inception',
+    148,
+    8.8,
+    14.99,
+    'A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea.',
+    '/inception_backdrop.jpg',
+    1,
+    10
+),
+(
+    'The Matrix',
+    136,
+    8.7,
+    12.99,
+    'A computer hacker learns about the true nature of his reality and his role in the war against its controllers.',
+    '/matrix_backdrop.jpg',
+    1,
+    5
+),
+(
+    'The Godfather',
+    175,
+    9.2,
+    10.00,
+    'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.',
+    '/godfather_backdrop.jpg',
+    0,
+    3
 );
 
 
@@ -32,7 +65,7 @@ CREATE TABLE users (
 	age INT NOT NULL CHECK(age > 0 && age < 200),
 	email VARCHAR(255) NOT NULL UNIQUE,
 	phone VARCHAR(100) NOT NULL,
-	preferences JSON NOT NULL,
+	preferences LONGTEXT DEFAULT NULL,
 	usuario VARCHAR(100) NOT NULL UNIQUE,
 	contrasena VARCHAR(255) NOT NULL,
 	CONSTRAINT fk_rol FOREIGN KEY (id_rol) REFERENCES rol(id)
@@ -40,50 +73,50 @@ CREATE TABLE users (
 
 
 INSERT INTO users (
-	id_rol, nombre, cedula, age, email, phone, preferences, usuario, contrasena
+	id_rol, nombre, cedula, age, email, phone, usuario, contrasena
 ) VALUES (
 	1, 'Juan Pérez', '1234567890', 30,
-	'juan.perez@example.com', '+57-3001234567', '{}	',
+	'juan.perez@example.com', '+57-3001234567',
 	'juanperez', 'holi'
 );
 
 INSERT INTO users (
-	id_rol, nombre, cedula, age, email, phone, preferences, usuario, contrasena
+	id_rol, nombre, cedula, age, email, phone, usuario, contrasena
 ) VALUES (
 	2, 'Juan', '1234', 25, 
-	'notiene@notiene.com', '32323322', '{}', 
+	'notiene@notiene.com', '32323322',
 	'blockcluster1', '123'
 );
 
 INSERT INTO users (
-	id_rol, nombre, cedula, age, email, phone, preferences, usuario, contrasena
+	id_rol, nombre, cedula, age, email, phone, usuario, contrasena
 ) VALUES (
 	2, 'Andrea', '3456', 25, 
 	'notiene2@notiene.com', '33523922', 
-	'{}', 'blockcluster2', '123'
+	'blockcluster2', '123'
 );
 
 INSERT INTO users (
-	id_rol, nombre, cedula, age, email, phone, preferences, usuario, contrasena
+	id_rol, nombre, cedula, age, email, phone, usuario, contrasena
 ) VALUES (
 	1, 'Andrea', '111', 20,
-	'notiene3@notiene.com', '3207080333', '{}',
+	'notiene3@notiene.com', '3207080333',
 	'cliente1', 'cliente1'
 );
 
 INSERT INTO users (
-	id_rol, nombre, cedula, age, email, phone, preferences, usuario, contrasena
+	id_rol, nombre, cedula, age, email, phone, usuario, contrasena
 ) VALUES (
 	1, 'Ramon', '222', 20,
-	'notiene4@notiene.com', '3012502835', '{}',
+	'notiene4@notiene.com', '3012502835',
 	'cliente2', 'cliente2'
 );
 
 INSERT INTO users (
-	id_rol, nombre, cedula, age, email, phone, preferences, usuario, contrasena
+	id_rol, nombre, cedula, age, email, phone, usuario, contrasena
 ) VALUES (
 	1, 'Pablo', '333', 20,
-	'notiene5@notiene.com', '3182506735', '{}',
+	'notiene5@notiene.com', '3182506735',
 	'cliente3', 'cliente3'
 );
 

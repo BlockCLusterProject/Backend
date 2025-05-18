@@ -26,6 +26,26 @@ public class OwnRepository {
     public OwnRepository() throws InterruptedException {
     }
     
+    @Transactional
+    public PurchaseHistory addPurchaseHistory(PurchaseHistory purchase) {
+    	try {
+    		Query query = entityManager.createNativeQuery("""
+    				INSERT INTO purchases_history (
+    				client_id, movie_id, quantity, price ) VALUES (
+    					:client_id, :movie_id, :quantity, :price
+    				)
+    				""", PurchaseHistory.class)
+    		.setParameter("client_id", purchase.getClient_id())
+    		.setParameter("movie_id", purchase.getMovie_id())
+    		.setParameter("quantity", purchase.getQuantity())
+    		.setParameter("price", purchase.getPrice());
+    		
+    		return purchase;
+    	} catch (Exception e ) {
+    		return null;
+    	}
+    }
+    
     @Transactional 
     public Person validateUser(String user, String password) {
     	try {
@@ -95,6 +115,7 @@ public class OwnRepository {
     public List<Movie> getAvailableMovies() {
     	String sql = "SELECT * FROM movies WHERE is_active = TRUE";
     	Query query = entityManager.createNativeQuery(sql, Movie.class);
+    	System.out.println(query.getResultList());
     	return query.getResultList();
     }
 
