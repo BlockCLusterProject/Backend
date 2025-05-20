@@ -4,6 +4,7 @@ package ApiServices;
 import io.github.cdimascio.dotenv.Dotenv;
 import Models.Genre;
 import Models.Movie;
+import Models.PurchaseHistory;
 import Repository.AdminRepository;
 import Repository.OwnRepository;
 
@@ -15,8 +16,6 @@ import com.couchbase.client.core.deps.com.fasterxml.jackson.databind.JsonNode;
 import com.couchbase.client.core.deps.com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import Entities.PurchaseHistory;
 
 import java.io.IOException;
 import java.net.URI;

@@ -5,8 +5,8 @@
 package Controllers;
 
 import ApiServices.UserService;
-import Entities.PurchaseHistory;
 import Models.Person;
+import Models.PurchaseHistory;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -49,8 +49,9 @@ public class UserController {
     
     @PostMapping("/movie/add-purchase-history")
     public ResponseEntity<PurchaseHistory> addPurchaseHistory(@RequestBody PurchaseHistory purchase) {
+    	System.out.println("Back Controller");
+		System.out.println(new com.google.gson.Gson().toJson(purchase));
     	PurchaseHistory response = userService.addPurchaseHistory(purchase);
-    	System.out.println(response);
     	if(response != null) {
     		return new ResponseEntity<>(response, HttpStatus.OK);
     	} else {
@@ -61,11 +62,11 @@ public class UserController {
     @Operation(summary = "Obtener un usuario a partir de su usuario",
     		description = "Devuelve una persona si es encontrado, sino, devuelve un null")
     @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
-    		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
+    		@ApiResponse(responseCode = "200", description = "Usuario encontrado"),
+    		@ApiResponse(responseCode = "404", description = "Usuario no encontrado"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    @GetMapping("/{user}")
+    @GetMapping("/client")
     public ResponseEntity<Person> getClientByUser(@RequestParam(required = true) String user) {
     	Person client = userService.getClientByUser(user);
     	if(client != null) {
@@ -92,7 +93,8 @@ public class UserController {
     	}
     }
 
-    @Operation(summary = "Obtener las películas disponibles", description = "Devuelve una lista con todas las películas disponibles en la base de datos local")
+    @Operation(summary = "Obtener las películas disponibles", 
+    		description = "Devuelve una lista con todas las películas disponibles en la base de datos local")
     @ApiResponses(value = {
     		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
     		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
@@ -119,7 +121,6 @@ public class UserController {
     })
     public ResponseEntity<Person> registerClient(@RequestParam(required = true)  String user) throws JsonMappingException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-       // {"id":1,"nombre":"Juan Pérez","idRol":2,"cedula":"1234567890","edad":30,"correo":"juan.perez@example.com","telefono":"0991234567","user":"juanp","password":"1234"}
         Person User = mapper.readValue(user, Person.class);
         Person newUser = userService.registerClient(User);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);

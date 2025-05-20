@@ -16,13 +16,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 })
 @EntityScan(basePackages = {
 		"Models"
-    /*"Models.Admin",
-    "Models.Client",
-    "Models.Genre",
-    "Models.Movie",
-    "Models.Person"*/
 })
-// @EnableJpaRepositories("Repository")
 
 public class RunBackend {
     public static void main(String[] args) {

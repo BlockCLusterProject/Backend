@@ -1,8 +1,8 @@
 package Repository;
 import Models.Person;
+import Models.PurchaseHistory;
+import Models.Rol;
 import ApiServices.AdminService;
-import Entities.PurchaseHistory;
-import Entities.Rol;
 import Models.ClientSesion;
 import Models.Genre;
 import Models.Movie;
@@ -28,22 +28,9 @@ public class OwnRepository {
     
     @Transactional
     public PurchaseHistory addPurchaseHistory(PurchaseHistory purchase) {
-    	try {
-    		Query query = entityManager.createNativeQuery("""
-    				INSERT INTO purchases_history (
-    				client_id, movie_id, quantity, price ) VALUES (
-    					:client_id, :movie_id, :quantity, :price
-    				)
-    				""", PurchaseHistory.class)
-    		.setParameter("client_id", purchase.getClient_id())
-    		.setParameter("movie_id", purchase.getMovie_id())
-    		.setParameter("quantity", purchase.getQuantity())
-    		.setParameter("price", purchase.getPrice());
-    		
-    		return purchase;
-    	} catch (Exception e ) {
-    		return null;
-    	}
+    	System.out.println(purchase);
+    	entityManager.persist(purchase);
+		return purchase;
     }
     
     @Transactional 
@@ -153,7 +140,7 @@ public class OwnRepository {
 	
 	@Transactional
 	public Person getClientByUser(String user) {
-		String sql = "SELECT * WHERE id_rol = 1 AND usuario = :user";
+		String sql = "SELECT * FROM users WHERE id_rol = 1 AND usuario = :user";
 		Query query = entityManager.createNativeQuery(sql, Person.class)
 				.setParameter("user", user);
 		return (Person) query.getSingleResult();
