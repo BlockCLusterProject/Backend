@@ -6,12 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import Models.Movie;
 import Models.PurchaseHistory;
+import Models.PurchaseHistoryDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-
+import java.util.Random;
 @Repository
 public class AdminRepository {
     @PersistenceContext
@@ -57,6 +58,10 @@ public class AdminRepository {
         		String overView =  movies.get(i).getOverview();
             	movies.get(i).setOverview( movies.get(i).getOverview().length() > 150 ? overView.substring(0, 147) + "..." 
             		    : overView);
+
+            	Random random = new Random();
+            	int numeroAleatorio = random.nextInt(131) + 100; // (230 - 100 + 1) = 131
+            	movies.get(i).setRuntime(numeroAleatorio);
                 entityManager.persist(movies.get(i));
             }
             return true;
@@ -67,8 +72,16 @@ public class AdminRepository {
     }
     
     @Transactional 
-    public List<PurchaseHistory> getPurchaseHistory(){
-        Query query = entityManager.createNativeQuery("SELECT * FROM purchases_history ORDER BY id", PurchaseHistory.class);
+    public List<PurchaseHistoryDTO> getPurchaseHistory(){
+        Query query = entityManager.createNativeQuery("""
+        	SELECT PH.id, USR.usuario AS clientName, MV.title AS movieName, PH.quantity, PH.price 
+			FROM purchases_history AS PH
+			INNER JOIN blockcluster.movies MV 
+				ON PH.movie_id = MV.id
+			INNER JOIN blockcluster.users AS USR
+				ON PH.client_id = USR.id
+			ORDER BY PH.id
+        """, PurchaseHistoryDTO.class);
         return query.getResultList();
     }
 }

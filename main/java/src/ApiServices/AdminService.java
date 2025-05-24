@@ -5,6 +5,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import Models.Genre;
 import Models.Movie;
 import Models.PurchaseHistory;
+import Models.PurchaseHistoryDTO;
 import Repository.AdminRepository;
 import Repository.OwnRepository;
 
@@ -85,7 +86,7 @@ public class AdminService {
         return repository.publishMovies(movies);
     }
     
-    public List<PurchaseHistory> getPurchaseHistory() {
+    public List<PurchaseHistoryDTO> getPurchaseHistory() {
     	return repository.getPurchaseHistory();
     }
 }
