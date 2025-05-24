@@ -73,6 +73,14 @@ public class UserService {
 			return response.getBody();
 			
 	}
+	
+	public List<PurchaseHistory> getPurchaseByUser(String user) {
+		return repository.getPurchaseByUser(user);
+	}
+	
+	public List<PurchaseHistory> getAllPurchases() {
+		return repository.getAllPurchases();
+	}
 
 	public List<Movie> getPurchaseHistory() {
 		return repository.getPurchaseHistory();

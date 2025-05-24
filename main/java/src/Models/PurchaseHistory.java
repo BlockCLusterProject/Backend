@@ -34,13 +34,17 @@ public class PurchaseHistory {
 	private Double price;
 	
 	public PurchaseHistory() {}
+	
+	
 
-	@Override
-	public String toString() {
-		return "PurchaseHistory [client_id=" + client_id + 
-				", movie_id=" + movie_id + ", quantity=" + quantity
-				+ ", price=" + price + "]";
+	public PurchaseHistory(Integer client_id, Integer movie_id, Integer quantity, Double price) {
+		this.client_id = client_id;
+		this.movie_id = movie_id;
+		this.quantity = quantity;
+		this.price = price;
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -80,6 +84,12 @@ public class PurchaseHistory {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return "PurchaseHistory [id=" + id + ", client_id=" + client_id + ", movie_id=" + movie_id + ", quantity="
+				+ quantity + ", price=" + price + "]";
 	}
 	
 }

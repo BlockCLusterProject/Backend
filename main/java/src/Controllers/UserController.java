@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -47,15 +48,43 @@ public class UserController {
         this.userService = userService;
     }
     
-    @PostMapping("/movie/add-purchase-history")
-    public ResponseEntity<PurchaseHistory> addPurchaseHistory(@RequestBody PurchaseHistory purchase) {
-    	System.out.println("Back Controller");
-		System.out.println(new com.google.gson.Gson().toJson(purchase));
-    	PurchaseHistory response = userService.addPurchaseHistory(purchase);
+    @GetMapping("all-purchases")
+    public ResponseEntity<List<PurchaseHistory>> getAllPurchases() {
+    	List<PurchaseHistory> response = userService.getAllPurchases();
     	if(response != null) {
     		return new ResponseEntity<>(response, HttpStatus.OK);
     	} else {
     		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    	}
+    }
+    
+    @GetMapping("get_purchase_by_user")
+    public ResponseEntity<List<PurchaseHistory>> getPurchasesByUser(String user) {
+    	List<PurchaseHistory> response = userService.getPurchaseByUser(user);
+    	if(response != null) {
+    		return new ResponseEntity<>(response, HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    	}
+    }
+    
+    @Operation(summary = "Agregar una película al historial",
+    		description = "Devuelve true si se hace el update efectivamente, sino, false")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Película agregada correctamente"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @PostMapping("/movie/add-purchase-history")
+    public ResponseEntity<Boolean> addPurchaseHistory(@RequestBody String purchase) throws 
+    JsonMappingException, JsonProcessingException {
+    	ObjectMapper mapper = new ObjectMapper();
+    	PurchaseHistory newPurchase = mapper.readValue(purchase, 
+    			new TypeReference<PurchaseHistory>() {});
+    	PurchaseHistory response = userService.addPurchaseHistory(newPurchase);
+    	if(response != null) {
+    		return new ResponseEntity<>(true, HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     	}
     }
     
