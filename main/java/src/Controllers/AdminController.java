@@ -24,6 +24,7 @@ import ApiServices.AdminService;
 import ApiServices.UserService;
 import Entities.PurchaseHistory;
 import Models.Person;
+import Models.PurchaseHistoryDTO;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -103,8 +104,8 @@ public class AdminController {
     
     @GetMapping("/getPurchaseHistory")
     @Operation(summary= "Crea peliculas a partir de una lista", description = "")
-    public ResponseEntity<List<PurchaseHistory>> getPurchaseHistory() {
-    	List<PurchaseHistory> purchaseHistory = adminService.getPurchaseHistory();
+    public ResponseEntity<List<PurchaseHistoryDTO>> getPurchaseHistory() {
+    	List<PurchaseHistoryDTO> purchaseHistory = adminService.getPurchaseHistory();
     	return new ResponseEntity<>(purchaseHistory, HttpStatus.OK);
     }
 }

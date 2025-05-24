@@ -1,5 +1,7 @@
 package Entities;
 
+import com.couchbase.client.core.deps.com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,6 +19,11 @@ public class PurchaseHistory {
 	
 	@Column(name = "client_id")
 	private Integer client_id;
+	
+	private String clientName;
+
+	@Column(name = "movieName")
+	private String movieName;
 
 	@Column(name = "movie_id")
 	private Integer movie_id;
@@ -36,7 +43,13 @@ public class PurchaseHistory {
 		this.quantity = quantity;
 		this.price = price;
 	}
-
+	
+	public PurchaseHistory(String clientName, String movieName, Integer quantity, Double price) {
+		this.clientName = clientName;
+		this.movieName = movieName;
+		this.quantity = quantity;
+		this.price = price;
+	}
 
 	public Integer getId() {
 		return id;
@@ -81,5 +94,20 @@ public class PurchaseHistory {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+
+	public String getMovieName() {
+		return movieName;
+	}
 	
+	public void setMovieName(String movieName) {
+		this.movieName = movieName ;
+	}
+	
+	public String getClientName() {
+		return this.clientName;
+	}
+	
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}	
 }

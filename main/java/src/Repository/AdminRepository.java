@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import Entities.PurchaseHistory;
 import Models.Movie;
+import Models.PurchaseHistoryDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -71,8 +72,16 @@ public class AdminRepository {
     }
     
     @Transactional 
-    public List<PurchaseHistory> getPurchaseHistory(){
-        Query query = entityManager.createNativeQuery("SELECT * FROM purchases_history ORDER BY id", PurchaseHistory.class);
+    public List<PurchaseHistoryDTO> getPurchaseHistory(){
+        Query query = entityManager.createNativeQuery("""
+        	SELECT PH.id, USR.usuario AS clientName, MV.title AS movieName, PH.quantity, PH.price 
+			FROM purchases_history AS PH
+			INNER JOIN blockcluster.movies MV 
+				ON PH.movie_id = MV.id
+			INNER JOIN blockcluster.users AS USR
+				ON PH.client_id = USR.id
+			ORDER BY PH.id
+        """, PurchaseHistoryDTO.class);
         return query.getResultList();
     }
 }
