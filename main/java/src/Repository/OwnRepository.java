@@ -40,6 +40,7 @@ public class OwnRepository {
 			Person response = (Person) entityManager.createNativeQuery(sql, Person.class)
 					.setParameter("user", user)
 					.getSingleResult();
+			System.out.println(response.getNombre());
 			if(response.getPassword().equals(password)) {
 				System.out.println("return");
 				return response;
