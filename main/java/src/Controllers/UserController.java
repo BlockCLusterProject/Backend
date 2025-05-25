@@ -153,11 +153,17 @@ public class UserController {
     		@ApiResponse(responseCode = "204", description = "Admin no encontrado"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<Person> registerClient(@RequestParam(required = true)  String user) throws JsonMappingException, JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Person User = mapper.readValue(user, Person.class);
-        Person newUser = userService.registerClient(User);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    public ResponseEntity<?> registerClient(@RequestParam(required = true)  String user, @RequestHeader(value = "Authorization",required = true) String token) throws JsonMappingException, JsonProcessingException {
+    	String userToken = jwtService.extractToken(token);
+        if (token == null || !jwtService.validateJwtToken(userToken)) {
+        	 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido o ausente.");
+        }else {
+        	ObjectMapper mapper = new ObjectMapper();
+            // {"id":1,"nombre":"Juan Pérez","idRol":2,"cedula":"1234567890","edad":30,"correo":"juan.perez@example.com","telefono":"0991234567","user":"juanp","password":"1234"}
+             Person User = mapper.readValue(user, Person.class);
+             Person newUser = userService.registerClient(User);
+             return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        }
     }
 
     

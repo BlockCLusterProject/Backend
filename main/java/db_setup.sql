@@ -31,7 +31,7 @@ CREATE TABLE users (
 	age INT NOT NULL CHECK(age > 0 && age < 200),
 	email VARCHAR(255) NOT NULL UNIQUE,
 	phone VARCHAR(100) NOT NULL,
-	preferences JSON NOT NULL,
+	preferences JSON NULL,
 	usuario VARCHAR(100) NOT NULL UNIQUE,
 	contrasena VARCHAR(255) NOT NULL,
 	CONSTRAINT fk_rol FOREIGN KEY (id_rol) REFERENCES rol(id)
