@@ -136,7 +136,7 @@ public class UserController {
     @GetMapping("/validateUser")
     @Operation(
 		summary = "Validar existencia de usuario", 
-		description = "Devuelve una clase Person si existe el usuario en la base de datos")
+		description = "Devuelve una clase Person si existe el usuario en la base de datos y si el token es valido ")
     @ApiResponses(value = {
     		@ApiResponse(responseCode = "200", description = "Client obtenido con exito"),
     		@ApiResponse(responseCode = "404", description = "Client no encontrado"),
@@ -145,19 +145,35 @@ public class UserController {
     
     public ResponseEntity<?> validateUser(
             @RequestParam(required = false) String user,
-            @RequestParam(required = false) String password,
-    		@RequestHeader(value = "Authorization",required = true) String token){
+            @RequestParam(required = false) String password
+            ){
     	
-    	String userToken = jwtService.extractToken(token);
-        if (token == null || !jwtService.validateJwtToken(userToken)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido o ausente.");
-        }
     	if (user == null || password == null) {
     		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
     	}
     	Person client = userService.validateUser(user, password);
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
+    
+    @GetMapping("/validateJwt")
+    @Operation(
+		summary = "Validar token", 
+		description = "Valida si el token es valido ")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Token validado con exito"),
+    		@ApiResponse(responseCode = "404", description = "Token encontrado"),
+    		@ApiResponse(responseCode = "500", description = "Error de autenticacion")
+    })
+    public ResponseEntity<String> validateToken(@RequestHeader(value = "Authorization",required = true) String token){
+    	
+    	String userToken = jwtService.extractToken(token);
+        if (token == null || !jwtService.validateJwtToken(userToken)) {
+        	return new ResponseEntity<>("False", HttpStatus.OK);
+        }else {
+        		return new ResponseEntity<>("True", HttpStatus.OK);
+        }
+    }
+    
 
     @GetMapping("getIdRol/{rol}")
     public ResponseEntity<Integer> getIdRol(
