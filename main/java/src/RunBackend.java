@@ -19,14 +19,18 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class RunBackend {
     public static void main(String[] args) {
-    	Dotenv dotenv;
-    	try {
-			dotenv = Dotenv.load();
-    	} catch(Exception e) {
-    		dotenv = Dotenv.configure()
-    				.ignoreIfMissing()
-    				.load();
+    	Dotenv dotenv = Dotenv.configure()
+    			.ignoreIfMissing()
+    			.load();
+    	if(dotenv != null) {
+    		dotenv.entries().forEach(entry -> {
+    			if(System.getProperty(entry.getKey()) == null && 
+    					System.getenv(entry.getKey()) == null) {
+    				System.setProperty(entry.getKey(), entry.getValue());
+    			}
+    		});
     	}
+
 		System.setProperty("db_url", dotenv.get("DB_URL"));
 		System.setProperty("db_user", dotenv.get("USER_DB"));
 		System.setProperty("db_password", dotenv.get("PASSWORD_DB"));
