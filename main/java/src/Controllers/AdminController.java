@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ApiServices.AdminService;
 import ApiServices.UserService;
-import Entities.PurchaseHistory;
 import Models.Person;
+import Models.PurchaseHistory;
 import Models.PurchaseHistoryDTO;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;

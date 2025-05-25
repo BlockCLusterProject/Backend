@@ -1,4 +1,6 @@
-package Entities;
+package Models;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.couchbase.client.core.deps.com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "purchase_history")
+@Table(name = "purchases_history")
 public class PurchaseHistory {
 	
 	@Id
@@ -18,6 +20,7 @@ public class PurchaseHistory {
 	private Integer id;
 	
 	@Column(name = "client_id")
+	@JsonProperty("client_id")
 	private Integer client_id;
 	
 	private String clientName;
@@ -26,18 +29,22 @@ public class PurchaseHistory {
 	private String movieName;
 
 	@Column(name = "movie_id")
+	@JsonProperty("movie_id")
 	private Integer movie_id;
 
 	@Column(name = "quantity")
+	@JsonProperty("quantity")
 	private Integer quantity;
 	
 	@Column(name = "price")
+	@JsonProperty("price")
 	private Double price;
 	
 	public PurchaseHistory() {}
+	
+	
 
-	public PurchaseHistory(Integer id, Integer client_id, Integer movie_id, Integer quantity, Double price) {
-		this.id = id;
+	public PurchaseHistory(Integer client_id, Integer movie_id, Integer quantity, Double price) {
 		this.client_id = client_id;
 		this.movie_id = movie_id;
 		this.quantity = quantity;
@@ -51,6 +58,7 @@ public class PurchaseHistory {
 		this.price = price;
 	}
 
+
 	public Integer getId() {
 		return id;
 	}
@@ -58,7 +66,6 @@ public class PurchaseHistory {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	public Integer getClient_id() {
 		return client_id;
@@ -68,7 +75,6 @@ public class PurchaseHistory {
 		this.client_id = client_id;
 	}
 
-
 	public Integer getMovie_id() {
 		return movie_id;
 	}
@@ -76,7 +82,6 @@ public class PurchaseHistory {
 	public void setMovie_id(Integer movie_id) {
 		this.movie_id = movie_id;
 	}
-
 
 	public Integer getQuantity() {
 		return quantity;
@@ -86,7 +91,6 @@ public class PurchaseHistory {
 		this.quantity = quantity;
 	}
 
-
 	public Double getPrice() {
 		return price;
 	}
@@ -94,20 +98,4 @@ public class PurchaseHistory {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-
-	public String getMovieName() {
-		return movieName;
-	}
-	
-	public void setMovieName(String movieName) {
-		this.movieName = movieName ;
-	}
-	
-	public String getClientName() {
-		return this.clientName;
-	}
-	
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}	
 }

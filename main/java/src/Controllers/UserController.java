@@ -6,8 +6,8 @@ package Controllers;
 
 import ApiServices.JwtService;
 import ApiServices.UserService;
-import Entities.PurchaseHistory;
 import Models.Person;
+import Models.PurchaseHistory;
 import Models.Movie;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,10 +53,9 @@ public class UserController {
         
     }
     
-    @PostMapping("/movie/add-purchase-history")
-    public ResponseEntity<PurchaseHistory> addPurchaseHistory(@RequestBody PurchaseHistory purchase) {
-    	PurchaseHistory response = userService.addPurchaseHistory(purchase);
-    	System.out.println(response);
+    @GetMapping("all-purchases")
+    public ResponseEntity<List<PurchaseHistory>> getAllPurchases() {
+    	List<PurchaseHistory> response = userService.getAllPurchases();
     	if(response != null) {
     		return new ResponseEntity<>(response, HttpStatus.OK);
     	} else {
@@ -63,14 +63,44 @@ public class UserController {
     	}
     }
     
+    @GetMapping("get_purchase_by_user")
+    public ResponseEntity<List<PurchaseHistory>> getPurchasesByUser(String user) {
+    	List<PurchaseHistory> response = userService.getPurchaseByUser(user);
+    	if(response != null) {
+    		return new ResponseEntity<>(response, HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    	}
+    }
+    
+    @Operation(summary = "Agregar una película al historial",
+    		description = "Devuelve true si se hace el update efectivamente, sino, false")
+    @ApiResponses(value = {
+    		@ApiResponse(responseCode = "200", description = "Película agregada correctamente"),
+    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @PostMapping("/movie/add-purchase-history")
+    public ResponseEntity<Boolean> addPurchaseHistory(@RequestBody String purchase) throws 
+    JsonMappingException, JsonProcessingException {
+    	ObjectMapper mapper = new ObjectMapper();
+    	PurchaseHistory newPurchase = mapper.readValue(purchase, 
+    			new TypeReference<PurchaseHistory>() {});
+    	PurchaseHistory response = userService.addPurchaseHistory(newPurchase);
+    	if(response != null) {
+    		return new ResponseEntity<>(true, HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    	}
+    }
+    
     @Operation(summary = "Obtener un usuario a partir de su usuario",
     		description = "Devuelve una persona si es encontrado, sino, devuelve un null")
     @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
-    		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
+    		@ApiResponse(responseCode = "200", description = "Usuario encontrado"),
+    		@ApiResponse(responseCode = "404", description = "Usuario no encontrado"),
     		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    @GetMapping("/{user}")
+    @GetMapping("/client")
     public ResponseEntity<Person> getClientByUser(@RequestParam(required = true) String user) {
     	Person client = userService.getClientByUser(user);
     	if(client != null) {
@@ -97,7 +127,8 @@ public class UserController {
     	}
     }
 
-    @Operation(summary = "Obtener las películas disponibles", description = "Devuelve una lista con todas las películas disponibles en la base de datos local")
+    @Operation(summary = "Obtener las películas disponibles", 
+    		description = "Devuelve una lista con todas las películas disponibles en la base de datos local")
     @ApiResponses(value = {
     		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
     		@ApiResponse(responseCode = "404", description = "Películas no disponibles"),
@@ -124,7 +155,6 @@ public class UserController {
     })
     public ResponseEntity<Person> registerClient(@RequestParam(required = true)  String user) throws JsonMappingException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-       // {"id":1,"nombre":"Juan Pérez","idRol":2,"cedula":"1234567890","edad":30,"correo":"juan.perez@example.com","telefono":"0991234567","user":"juanp","password":"1234"}
         Person User = mapper.readValue(user, Person.class);
         Person newUser = userService.registerClient(User);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);

@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
-import Entities.PurchaseHistory;
 import Models.Movie;
+import Models.PurchaseHistory;
 import Models.PurchaseHistoryDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
