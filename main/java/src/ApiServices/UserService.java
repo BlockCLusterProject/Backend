@@ -1,6 +1,7 @@
 package ApiServices;
 
 import Models.Person;
+import Models.PurchaseHistory;
 import Models.Movie;
 import Repository.OwnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import Entities.PurchaseHistory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -73,6 +72,14 @@ public class UserService {
 			System.out.println(response.getBody());
 			return response.getBody();
 			
+	}
+	
+	public List<PurchaseHistory> getPurchaseByUser(String user) {
+		return repository.getPurchaseByUser(user);
+	}
+	
+	public List<PurchaseHistory> getAllPurchases() {
+		return repository.getAllPurchases();
 	}
 
 	public List<Movie> getPurchaseHistory() {

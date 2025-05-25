@@ -57,7 +57,7 @@ public class Movie {
 
 	@Column(name = "overview", nullable = false)
     @JsonProperty("overview")
-	@SerializedName("sinopsis")
+	@SerializedName("overview")
     private String overview;
 
 
@@ -114,7 +114,7 @@ public class Movie {
                 + ", generos=" + genres
                 + ", duracion=" + runtime
                 + ", vote_average=" + vote_average
-                + ", sinopsis='" + overview + '\''
+                + ", overview='" + overview + '\''
                 + '}';
     }
     

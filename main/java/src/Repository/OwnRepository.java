@@ -1,8 +1,8 @@
 package Repository;
 import Models.Person;
+import Models.PurchaseHistory;
+import Models.Rol;
 import ApiServices.AdminService;
-import Entities.PurchaseHistory;
-import Entities.Rol;
 import Models.ClientSesion;
 import Models.Genre;
 import Models.Movie;
@@ -28,22 +28,9 @@ public class OwnRepository {
     
     @Transactional
     public PurchaseHistory addPurchaseHistory(PurchaseHistory purchase) {
-    	try {
-    		Query query = entityManager.createNativeQuery("""
-    				INSERT INTO purchases_history (
-    				client_id, movie_id, quantity, price ) VALUES (
-    					:client_id, :movie_id, :quantity, :price
-    				)
-    				""", PurchaseHistory.class)
-    		.setParameter("client_id", purchase.getClient_id())
-    		.setParameter("movie_id", purchase.getMovie_id())
-    		.setParameter("quantity", purchase.getQuantity())
-    		.setParameter("price", purchase.getPrice());
-    		
-    		return purchase;
-    	} catch (Exception e ) {
-    		return null;
-    	}
+    	System.out.println(purchase);
+    	entityManager.persist(purchase);
+		return purchase;
     }
     
     @Transactional 
@@ -53,6 +40,7 @@ public class OwnRepository {
 			Person response = (Person) entityManager.createNativeQuery(sql, Person.class)
 					.setParameter("user", user)
 					.getSingleResult();
+			System.out.println(response.getNombre());
 			if(response.getPassword().equals(password)) {
 				System.out.println("return");
 				return response;
@@ -130,16 +118,45 @@ public class OwnRepository {
 	
 	@Transactional
 	public Movie getMovieById(Integer movieId) {
-		String sql = "SELECT * WHERE movie_id = :movieId";
+		String sql = "SELECT * FROM movies WHERE movie_id = :movieId";
 		Query query = entityManager.createNativeQuery(sql, Movie.class)
 				.setParameter("movieId", movieId);
 		return (Movie) query.getSingleResult();
+	}
+	
+	@Transactional
+	public List<PurchaseHistory> getPurchaseByUser(String user) {
+		String sql = "SELECT * FROM purchases_history WHERE client_id = :user_id";
+		Query query = entityManager.createNativeQuery(sql, PurchaseHistory.class)
+				.setParameter("user_id", String.valueOf(getIdByUser(user)));
+		return query.getResultList();
+	}
+	
+	@Transactional
+	private Integer getIdByUser(String user) {
+		String sql = "SELECT id FROM users WHERE usuario = :user";
+		Query query = entityManager.createNativeQuery(sql)
+				.setParameter("user", user);
+		Object result = query.getSingleResult();
+		if(result instanceof Number) {
+			return ((Number) result).intValue();
+		} else {
+			return -1;
+		}
+	}
+	
+	@Transactional
+	public List<PurchaseHistory> getAllPurchases() {
+		String sql = "SELECT * FROM purchases_history";
+		Query query = entityManager.createNativeQuery(sql, PurchaseHistory.class);
+		return query.getResultList();
+		
 	}
     
 	@Transactional
 	public List<Movie> getPurchaseHistory() {
 		Person sesion = ClientSesion.getInstance().getClient();
-		String sql = "SELECT movie_id, price WHERE client_id = :client_id";
+		String sql = "SELECT movie_id, price FROM purchases_history WHERE client_id = :client_id";
 		Query query = entityManager.createNativeQuery(sql, PurchaseHistory.class)
 				.setParameter("client_id", sesion.getId());
 		List<PurchaseHistory> history = query.getResultList();
@@ -153,7 +170,7 @@ public class OwnRepository {
 	
 	@Transactional
 	public Person getClientByUser(String user) {
-		String sql = "SELECT * WHERE id_rol = 1 AND usuario = :user";
+		String sql = "SELECT * FROM users WHERE id_rol = 1 AND usuario = :user";
 		Query query = entityManager.createNativeQuery(sql, Person.class)
 				.setParameter("user", user);
 		return (Person) query.getSingleResult();
