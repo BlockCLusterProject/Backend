@@ -16,11 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ApiServices.AdminService;
+import ApiServices.JwtService;
 import ApiServices.UserService;
 import Models.Person;
 import Models.PurchaseHistory;
@@ -41,71 +43,86 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Admin", description = "API para la gestión de peliculas para el admin")
 public class AdminController {
     private final AdminService adminService;
+    private final JwtService jwtService;
 
     @Autowired
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, JwtService jwtService) {
         this.adminService = adminService;
+        this.jwtService = jwtService;
     }
-    
+
     @GetMapping("/getAllMovies")
     @Operation(summary = "Obtener las pel�culas disponibles", description = "Devuelve una lista con todas las pel�culas disponibles en la base de datos local")
     @ApiResponses(value = {
-    		@ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
-    		@ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
-    		@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
+            @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     public ResponseEntity<List<Movie>> getAllMovies() {
         List<Movie> movies = adminService.getAllMovies();
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
+
     @GetMapping("/trending_movies")
     @Operation(summary = "Obtener las pel�culas disponibles", description = "Se consulta listado de peliculas trending del día")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
-        @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode = "200", description = "Lista de productos obtenidas con �xito"),
+            @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<List<Movie>> getTrendingMovies( @RequestParam(required = false) Integer genre) throws InterruptedException {
-    	if(genre == null) {
-    		genre = 0;
-    	}
+    public ResponseEntity<List<Movie>> getTrendingMovies(@RequestParam(required = false) Integer genre)
+            throws InterruptedException {
+        if (genre == null) {
+            genre = 0;
+        }
         List<Movie> movies = AdminService.getTrendingMovies(genre);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
-    
-     @PatchMapping("/update_movies")
-     @Operation(summary = "Actualiza pelicula", description = "Se consulta la película por medio del id y se actualiza")
-     @ApiResponses(value = {
-             @ApiResponse(responseCode = "200", description = "Pelicula actualizada"),
-             @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
-             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
-        })
-     public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie, @RequestParam(required = true) String movie) throws JsonMappingException, JsonProcessingException {
-         ObjectMapper mapper = new ObjectMapper();
-         Movie newMovie = mapper.readValue(movie, Movie.class);
-    	 return new ResponseEntity<>(adminService.updateMovie(id_movie, newMovie), HttpStatus.OK);
-     }
+
+    @PatchMapping("/update_movies")
+    @Operation(summary = "Actualiza pelicula", description = "Se consulta la película por medio del id y se actualiza")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pelicula actualizada"),
+            @ApiResponse(responseCode = "404", description = "Pel�culas no disponibles"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<Movie> updateMovie(@RequestParam(required = true) int id_movie,
+            @RequestParam(required = true) String movie) throws JsonMappingException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Movie newMovie = mapper.readValue(movie, Movie.class);
+        return new ResponseEntity<>(adminService.updateMovie(id_movie, newMovie), HttpStatus.OK);
+    }
 
     @PostMapping("/create_movie")
-    @Operation(summary= "Crea nueva pelicula", description = "")
-    public ResponseEntity<Movie> createMovie(@RequestParam(required = true) String movie) throws JsonMappingException, JsonProcessingException {
+    @Operation(summary = "Crea nueva pelicula", description = "")
+    public ResponseEntity<Movie> createMovie(@RequestParam(required = true) String movie)
+            throws JsonMappingException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Movie newMovie = mapper.readValue(movie, Movie.class);
         return new ResponseEntity<>(adminService.createMovie(newMovie), HttpStatus.OK);
     }
 
     @PostMapping("/publishMovies")
-    @Operation(summary= "Crea peliculas a partir de una lista", description = "")
-    public ResponseEntity<Boolean> publishMovies(@RequestParam(required = true) String movie) throws JsonMappingException, JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Movie> newMovie = mapper.readValue(movie, new TypeReference<List<Movie>>() {});
-        return new ResponseEntity<>(adminService.publishMovies(newMovie), HttpStatus.OK);
+    @Operation(summary = "Crea peliculas a partir de una lista", description = "")
+    public ResponseEntity<?> publishMovies(@RequestParam(required = true) String movie,
+            @RequestHeader(value = "Authorization", required = true) String token)
+            throws JsonMappingException, JsonProcessingException {
+        String userToken = jwtService.extractToken(token);
+        if (token == null || !jwtService.validateJwtToken(userToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido o ausente.");
+        } else {
+
+            ObjectMapper mapper = new ObjectMapper();
+            List<Movie> newMovie = mapper.readValue(movie, new TypeReference<List<Movie>>() {
+            });
+            return new ResponseEntity<>(adminService.publishMovies(newMovie), HttpStatus.OK);
+        }
     }
-    
+
     @GetMapping("/getPurchaseHistory")
-    @Operation(summary= "Crea peliculas a partir de una lista", description = "")
+    @Operation(summary = "Crea peliculas a partir de una lista", description = "")
     public ResponseEntity<List<PurchaseHistoryDTO>> getPurchaseHistory() {
-    	List<PurchaseHistoryDTO> purchaseHistory = adminService.getPurchaseHistory();
-    	return new ResponseEntity<>(purchaseHistory, HttpStatus.OK);
+        List<PurchaseHistoryDTO> purchaseHistory = adminService.getPurchaseHistory();
+        return new ResponseEntity<>(purchaseHistory, HttpStatus.OK);
     }
 }
