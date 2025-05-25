@@ -155,7 +155,7 @@ public class UserController {
     })
     public ResponseEntity<?> registerClient(@RequestParam(required = true)  String user, @RequestHeader(value = "Authorization",required = true) String token) throws JsonMappingException, JsonProcessingException {
     	String userToken = jwtService.extractToken(token);
-        if (token == null || !jwtService.validateJwtToken(userToken)) {
+        if (token == null || !jwtService.validateJwtToken(userToken)) { 
         	 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido o ausente.");
         }else {
         	ObjectMapper mapper = new ObjectMapper();
